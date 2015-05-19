@@ -1,0 +1,44 @@
+<html lang="en" ng-app="mahjong">
+ <head>
+   
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+   <!-- The css is copied into dist/css/app.css by the copy task -->
+   <link rel="stylesheet" href="css/app.css"/>
+   <title>Mahjong</title>
+ </head>
+ <body ng-controller="GameController as gameCtrl">
+
+	<div class="container-fluid">
+	 	<div class="row">
+		 	<div class="col-md-4 well">
+				<p ng-repeat="game in gameCtrl.games">
+					<span>GameId: {{ game.id }}</span></br>
+					<span>Total players: {{ game.players.length }}</span></br>
+					<a href="#" ng-click="gameCtrl.joinGame(game)">Join</a> | <a href="#" ng-click="gameCtrl.openGame(game)">Open</a>
+				</p>
+
+				<div>
+				  <form name="createForm" ng-submit="gameCtrl.addGame()">
+					<label>Create game</label>
+					<input type="text" ng-model="gameCtrl.newGame"/>
+					<input type="submit" value="add"/>
+				  </form>
+				</div>
+			</div>
+			<div class="col-md-4 well">
+				<span ng-show="gameCtrl.currentGamePlayers.length > 0">Players:</span>
+				<p ng-repeat="player in gameCtrl.currentGamePlayers">
+					<span>{{ player }}</span></br>
+				</p>
+			</div>
+			<div class="col-md-4 well">
+				<span ng-show="gameCtrl.currentGameTiles.length > 0">Players:</span>
+				<p ng-repeat="tile in gameCtrl.currentGameTiles">
+					<span>{{ tile.suit }}</span></br>
+				</p>
+			</div>
+		</div><!-- .row -->
+	</div><!-- .container -->
+   <script type="text/javascript" src="app.js"></script>
+ </body>
+</html>
