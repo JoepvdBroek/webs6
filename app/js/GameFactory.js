@@ -31,7 +31,7 @@ module.exports = function(){
 	}
 
 	factory.addGame = function(newGame) {
-		var emptyGame = { id: newGame, players: [], status: 'not started'};
+		var emptyGame = { id: newGame, players: [], status: 'open', tiles : tiles};
 		factory.games.push(emptyGame);
 	}
 
