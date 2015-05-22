@@ -1,12 +1,15 @@
 module.exports = function(app){
 
 	app.controller('GameController', ['$scope', 'GameFactory' , function($scope, GameFactory){
-		this.games = GameFactory.getGames();
-		this.newGame = 'game5';
-		this.username = GameFactory.username;
-		this.currentGamePlayers = [];
-		this.currentGameTiles = [];
-		this.tiles = [];
+		$scope.games = GameFactory.getGames();
+		$scope.newGame = 'game5';
+		$scope.username = GameFactory.username;
+		$scope.currentGamePlayers = [];
+		$scope.currentGameTiles = [];
+		$scope.tiles = [];
+		getTiles();
+
+		console.log($scope.tiles);
 
 		var tile1 = {
 	        "xPos": 7,
@@ -39,25 +42,28 @@ module.exports = function(app){
 		GameFactory.compareTiles(tile1, tile2);
 		GameFactory.isMatchAvailable();
 
-		/*GameFactory.getTiles().success(function(data) {
-            this.tiles = data;
-
-        }).error(function(status, data) {
-            console.log(status);
-            console.log(data);
-        });*/
-
-		this.addGame = function() {
-			GameFactory.addGame(this.newGame);
+		function getTiles(){
+			GameFactory.getTiles().success(function(data) {
+                $scope.tiles = data;
+                console.log($scope.tiles);
+                
+            }).error(function(status, data) {
+                console.log(status);
+                console.log(data);
+            });
 		}
 
-		this.joinGame = function(game) {
+		$scope.addGame = function() {
+			GameFactory.addGame($scope.newGame);
+		}
+
+		$scope.joinGame = function(game) {
 			GameFactory.joinGame(game);
 		}
 
-		this.openGame = function(game){
-			this.currentGamePlayers = GameFactory.openGame(game);
-			this.currentGameTiles = game.tiles;
+		$scope.openGame = function(game){
+			$scope.currentGamePlayers = GameFactory.openGame(game);
+			$scope.currentGameTiles = game.tiles;
 		}
 
 	}]);

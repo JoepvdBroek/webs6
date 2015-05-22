@@ -5,3 +5,18 @@ body {
 #leftcolumn,
 #rightcolumn {
 }
+
+.gameboard {
+	position: relative;
+	height: 100%;
+}
+
+tile {
+	position: absolute;
+	width: 100px;
+	height: 150px;
+}
+
+tile:hover {
+	background-color: yellow;
+}

@@ -205,34 +205,21 @@ module.exports = function(app){
 	            "__v": 0
 	        },
 	        "_id": "5541fc5b1872631100678bbd"
-	    },
-	    {
-	        "xPos": 27,
-	        "yPos": 3,
-	        "zPos": 0,
-	        "tile": {
-	            "_id": 20,
-	            "suit": "Circle",
-	            "name": "6",
-	            "matchesWholeSuit": false,
-	            "__v": 0
-	        },
-	        "_id": "5541fc5b1872631100678bbg"
 	    }];
 
 		factory.isMatchAvailable = function(){
-			collection.forEach(function(tile1) {
-				collection.forEach(function(tile2) {
-					if(tile2._id == tile1._id){
+			for (i = 0; i < collection.length; i++) { 
+				for (x = 0; x < collection.length; x++) { 
+					if(collection[i]._id == collection[x]._id){
 						//zelfde tile
 					} else {
-						if(compareTiles(tile1, tile2)){
+						if(compareTiles(collection[i], collection[x])){
 							console.log('match found!');
 							return true;
 						}
 					}
-				});
-			});
+				}
+			}
 			console.log('no match found');
 			return false;
 		}
