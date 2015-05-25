@@ -9,8 +9,6 @@ module.exports = function(app){
 		$scope.tiles = [];
 		getTiles();
 
-		console.log($scope.tiles);
-
 		var tile1 = {
 	        "xPos": 7,
 	        "yPos": 1,
@@ -45,7 +43,6 @@ module.exports = function(app){
 		function getTiles(){
 			GameFactory.getTiles().success(function(data) {
                 $scope.tiles = data;
-                console.log($scope.tiles);
                 
             }).error(function(status, data) {
                 console.log(status);
@@ -64,6 +61,22 @@ module.exports = function(app){
 		$scope.openGame = function(game){
 			$scope.currentGamePlayers = GameFactory.openGame(game);
 			$scope.currentGameTiles = game.tiles;
+		}
+
+		$scope.tile1 = null;
+		$scope.tile2 = null;
+		$scope.selectTile = function(tile){
+			console.log('selectTile()');
+			if($scope.tile1 == null){
+				$scope.tile1 = tile;
+			} else {
+				$scope.tile2 = tile;
+				console.log($scope.tile1);
+				console.log($scope.tile2);
+				GameFactory.compareTiles($scope.tile1, $scope.tile2);
+				$scope.tile1 = null;
+				$scope.tile2 = null;
+			}
 		}
 
 	}]);

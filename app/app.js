@@ -16,8 +16,8 @@ app.directive('tile', function() {
     	var tile = scope.tile;
 		element.css({
 			"border": '1px solid black',
-			"left": tile.xPos*100 + 'px',
-			"top": tile.yPos*150 + 'px',
+			"left": tile.xPos*40 + 'px',
+			"top": tile.yPos*60 + 'px',
 			"z-index": tile.zPos
 		});
     }
