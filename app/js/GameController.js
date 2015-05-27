@@ -1,12 +1,13 @@
 module.exports = function(app){
 
 	app.controller('GameController', ['$scope', 'GameFactory' , function($scope, GameFactory){
-		$scope.games = GameFactory.getGames();
+		$scope.games = [];
 		$scope.newGame = 'game5';
 		$scope.username = GameFactory.username;
 		$scope.currentGamePlayers = [];
 		$scope.currentGameTiles = [];
 		$scope.tiles = [];
+		getGames();
 		getTiles();
 
 		var tile1 = {
@@ -37,17 +38,26 @@ module.exports = function(app){
 	        "_id": "5541fc5b1872631100678bb5"
 	    };
 
-		GameFactory.compareTiles(tile1, tile2);
-		GameFactory.isMatchAvailable();
-
 		function getTiles(){
 			GameFactory.getTiles().success(function(data) {
+				for (i = 0; i < data.length; i++) { 
+					data[i].matched = false;
+				}
                 $scope.tiles = data;
                 
             }).error(function(status, data) {
                 console.log(status);
                 console.log(data);
             });
+		}
+
+		function getGames(){
+			GameFactory.getGames().success(function(data){
+				//console.log(data);
+				$scope.games = data;
+			}).error(function(status, data) {
+
+			});
 		}
 
 		$scope.addGame = function() {

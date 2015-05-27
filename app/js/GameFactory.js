@@ -23,7 +23,8 @@ module.exports = function(app){
 		];	
 
 		factory.getGames = function(){
-			return factory.games;
+			return $http.get('https://mahjongmayhem.herokuapp.com/games');
+			//return factory.games;
 		}
 
 		factory.getTiles = function(){
@@ -59,6 +60,8 @@ module.exports = function(app){
 				//als 1 van de 2 tiles false is moet name ook overeenkomen
 				if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
 					if(tile1.tile.name == tile2.tile.name){
+						tile1.matched = true;
+						tile2.matched = true;
 						console.log('match!');
 					} else {
 						console.log('no match');
