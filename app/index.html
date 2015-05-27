@@ -7,14 +7,18 @@
    <title>Mahjong</title>
  </head>
  <body ng-controller="GameController as gameCtrl">
-
+ 	<header>
+ 		<nav class="navbar navbar-default">
+			<li class="btn btn-default"><a href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/login">Log in</a></li>
+		 </nav>
+ 	</header>
 	<div class="container-fluid">
 	 	<div class="row">
 		 	<div class="col-md-4 well">
 				<p ng-repeat="game in games">
 					<span>GameId: {{ game.id }}</span></br>
 					<span>Total players: {{ game.players.length }}</span></br>
-					<a href="#" ng-click="joinGame(game)">Join</a> | <a href="#" ng-click="openGame(game)">Open</a>
+					<a href="" ng-click="joinGame(game)">Join</a> | <a href="" ng-click="openGame(game)">Open</a>
 				</p>
 
 				<div>

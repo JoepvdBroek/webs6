@@ -2,8 +2,17 @@ require('angular/angular');
 
 // Create your app
 var app = angular.module('mahjong', []);
+
+app.config(function($routeProvider){
+  $routeProvider.when('/login', {
+    templateUrl: '/login',
+    controller: 'loginController'
+  });
+});
+
 var gameFactory = require('./js/GameFactory')(app);
 var gameController = require('./js/GameController')(app);
+var loginController = require('./js/LoginController')(app);
 
 app.directive('tile', function() {
   return {
