@@ -9,42 +9,13 @@
  <body ng-controller="GameController as gameCtrl">
  	<header>
  		<nav class="navbar navbar-default">
-			<li class="btn btn-default"><a href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/login">Log in</a></li>
+
+			<li class="btn btn-default"><a href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/%23/login">Log in</a></li>
+			<li class="btn btn-default"><a href="#/logout">Log out</a></li>
 		 </nav>
  	</header>
-	<div class="container-fluid">
-	 	<div class="row">
-		 	<div class="col-md-4 well">
-				<p ng-repeat="game in games">
-					<span>GameId: {{ game.id }}</span></br>
-					<span>Total players: {{ game.players.length }}</span></br>
-					<a href="" ng-click="joinGame(game)">Join</a> | <a href="" ng-click="openGame(game)">Open</a>
-				</p>
-
-				<div>
-				  <form name="createForm" ng-submit="addGame()">
-					<label>Create game</label>
-					<input type="text" ng-model="newGame"/>
-					<input type="submit" value="add"/>
-				  </form>
-				</div>
-			</div>
-			<div class="col-md-4 well">
-				<span ng-show="currentGamePlayers.length > 0">Players:</span>
-				<p ng-repeat="player in currentGamePlayers">
-					<span>{{ player }}</span></br>
-				</p>
-			</div>
-			<div class="col-md-4 well"></div>
-		</div><!-- .row -->
-		<div class="row">
-			<div class="col-md-12 well">
-				<div class="gameboard">
-					<tile ng-repeat="tile in tiles" ng-click="selectTile(tile)"></tile>
-				</div>
-			</div>
-		</div>
-	</div><!-- .container -->
+ 	<div class="container-fluid" ng-view>
+ 	</div>
    <script type="text/javascript" src="app.js"></script>
  </body>
 </html>
