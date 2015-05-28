@@ -22,3 +22,7 @@ tile {
 tile:hover {
 	background-color: yellow;
 }
+
+tile:focus {
+	background-color: yellow;
+}
