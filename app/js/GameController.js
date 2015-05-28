@@ -10,34 +10,6 @@ module.exports = function(app){
 		getGames();
 		getTiles();
 
-		var tile1 = {
-	        "xPos": 7,
-	        "yPos": 1,
-	        "zPos": 0,
-	        "tile": {
-	            "_id": 76,
-	            "suit": "Tiger",
-	            "name": "2",
-	            "matchesWholeSuit": false,
-	            "__v": 0
-	        },
-	        "_id": "5541fc5b1872631100678bb5"
-	    };
-
-	    var tile2 = {
-	        "xPos": 7,
-	        "yPos": 1,
-	        "zPos": 0,
-	        "tile": {
-	            "_id": 76,
-	            "suit": "Tiger",
-	            "name": "3",
-	            "matchesWholeSuit": true,
-	            "__v": 0
-	        },
-	        "_id": "5541fc5b1872631100678bb5"
-	    };
-
 		function getTiles(){
 			GameFactory.getTiles().success(function(data) {
 				for (i = 0; i < data.length; i++) { 
