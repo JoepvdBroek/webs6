@@ -3,27 +3,11 @@ module.exports = function(app){
 	app.factory('GameFactory', ['$http' , function($http){
 		var factory = {};
 
-		var tiles = [
-			{ suit: 'character', name: '1' },
-			{ suit: 'tiger', name: '2' },
-			{ suit: 'tiger', name: '3' },
-			{ suit: 'swain', name: '4' },
-			{ suit: 'swain', name: '5' },
-			{ suit: 'cow', name: '6' },
-			{ suit: 'chicken', name: '7' },
-		];
-
 		factory.username = 'Joep';
-		factory.currentGamePlayers = [];
-		factory.games = [
-			{ id: 'game1', players: ['player1', 'player2'], status: 'open', tiles : tiles},
-			{ id: 'game2', players: ['player2', 'player3', 'player1'], status: 'playing', tiles : tiles },
-			{ id: 'game3', players: ['player3', 'player1'], status: 'open', tiles : tiles},
-			{ id: 'game4', players: ['Joep', 'player2', 'player1'], status: 'finished', tiles : tiles}
-		];	
 
 		factory.getGames = function(){
-			return factory.games;
+			return $http.get('https://mahjongmayhem.herokuapp.com/games');
+			//return factory.games;
 		}
 
 		factory.getTiles = function(){
@@ -51,6 +35,60 @@ module.exports = function(app){
 			} else {
 				alert('Game needs to be open!');
 			}
+		}
+
+		factory.compareTiles = function(tile1, tile2){
+
+			if(tile1.tile.suit == tile2.tile.suit){
+				//als 1 van de 2 tiles false is moet name ook overeenkomen
+				if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
+					if(tile1.tile.name == tile2.tile.name){
+						tile1.matched = true;
+						tile2.matched = true;
+						console.log('match!');
+					} else {
+						console.log('no match');
+					}
+				} else {
+					console.log('match!');
+				}	
+			} else {
+				console.log('no match');
+			}
+		}
+
+		function compareTiles(tile1, tile2){
+			if(tile1.tile.suit == tile2.tile.suit){
+				//als 1 van de 2 tiles false is moet name ook overeenkomen
+				if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
+					if(tile1.tile.name == tile2.tile.name){
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return true;
+				}	
+			} else {
+				return false;
+			}
+		}
+
+		factory.isMatchAvailable = function(){
+			for (i = 0; i < collection.length; i++) { 
+				for (x = 0; x < collection.length; x++) { 
+					if(collection[i]._id == collection[x]._id){
+						//zelfde tile
+					} else {
+						if(compareTiles(collection[i], collection[x])){
+							console.log('match found!');
+							return true;
+						}
+					}
+				}
+			}
+			console.log('no match found');
+			return false;
 		}
 
 		return factory;

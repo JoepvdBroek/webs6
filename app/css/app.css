@@ -5,3 +5,20 @@ body {
 #leftcolumn,
 #rightcolumn {
 }
+
+.gameboard {
+	position: relative;
+	height: 100%;
+}
+
+tile {
+	overflow: hidden;
+	position: absolute;
+	background-color: #FFF;
+	width: 40px;
+	height: 60px;
+}
+
+tile:hover {
+	background-color: yellow;
+}
