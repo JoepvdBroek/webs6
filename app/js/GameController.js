@@ -9,13 +9,13 @@ module.exports = function(app){
 		$scope.tiles = [];
 		getGames();
 		getTiles();
-
+ 		
 		function getTiles(){
 			GameFactory.getTiles().success(function(data) {
 				for (i = 0; i < data.length; i++) { 
 					data[i].matched = false;
 				}
-                $scope.tiles = data;
+            $scope.tiles = data;
                 
             }).error(function(status, data) {
                 console.log(status);
