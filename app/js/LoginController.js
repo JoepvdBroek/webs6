@@ -1,5 +1,6 @@
 module.exports = function(app){
 	app.controller('LoginController', ['$scope', '$window', '$location', function($scope, $window, $location){
+		
 		if($location.path() == '/login'){ // login
 			console.log("logging");
 			$window.sessionStorage.username = $location.search().username;

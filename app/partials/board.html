@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row"  ng-controller="GameController as gameCtrl">
 	<div class="col-md-12 well">
 		<div class="gameboard">
 			<tile ng-repeat="tile in tiles | matched:false" ng-click="selectTile(tile)"></tile>
