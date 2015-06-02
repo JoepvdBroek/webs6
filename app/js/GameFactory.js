@@ -38,7 +38,9 @@ module.exports = function(app){
 		}
 
 		factory.compareTiles = function(tile1, tile2){
-			if(!tile1._id == tile2._id){
+			if(tile1._id == tile2._id){
+				
+			} else {
 				if(tile1.tile.suit == tile2.tile.suit){
 					//als 1 van de 2 tiles false is moet name ook overeenkomen
 					if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){

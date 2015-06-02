@@ -27,13 +27,18 @@ app.config([ '$routeProvider', function($routeProvider)
     })
     .when('/login',
     {
-        template: 'test',
+        template: 'login',
         controller: 'LoginController',
     })
     .when('/logout',
     {
-        template: 'test',
+        template: 'logout',
         controller: 'LoginController',
+    })
+    .when('/games', 
+    {
+        templateUrl: 'partials/allGames.html',
+        controller: 'GameController',
     })
     .otherwise
     ({

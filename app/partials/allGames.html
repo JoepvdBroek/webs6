@@ -1,0 +1,24 @@
+<div class="row" ng-controller="GameController as gameCtrl">
+ 	<div class="col-md-12 well">
+		<table class="table simple">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Aantal spelers</th>
+					<th>Game template</th>
+					<th>State</th>
+					<th>Acties</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="game in games" id="{{game._id}}">
+					<td>{{ game.id }}</td>
+					<td>{{ game.players.length }}</td>
+					<td>{{ game.gameTemplate.id }}</td>
+					<td>{{ game.state }}</td>
+					<td><a href="#" ng-click="joinGame(game)">Join</a> | <a href="#" ng-click="openGame(game)">Open</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
