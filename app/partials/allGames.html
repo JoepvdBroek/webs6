@@ -11,12 +11,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="game in games" id="{{game._id}}">
+				<tr ng-repeat="game in gameCtrl.games" id="{{game._id}}">
 					<td>{{ game.id }}</td>
 					<td>{{ game.players.length }}</td>
 					<td>{{ game.gameTemplate.id }}</td>
 					<td>{{ game.state }}</td>
-					<td><a href="#" ng-click="joinGame(game)">Join</a> | <a href="#" ng-click="openGame(game)">Open</a></td>
+					<td>
+						<span ng-if="game.state == 'open'"><a href="#" ng-click="gameCtrl.joinGame(game)">Join</a></span>
+						<span ng-if="game.state == 'playing'"><a href="#/games/{{ game.id }}" >Open</a><span>
+					</td>
 				</tr>
 			</tbody>
 		</table>

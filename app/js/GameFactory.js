@@ -10,8 +10,8 @@ module.exports = function(app){
 			//return factory.games;
 		}
 
-		factory.getTiles = function(){
-			return $http.get('https://mahjongmayhem.herokuapp.com/games/5541fc5b1872631100678bb4/tiles');
+		factory.getTiles = function(gameId){
+			return $http.get('https://mahjongmayhem.herokuapp.com/games/'+gameId+'/tiles');
 		}
 
 		//Laat nu nog alleen huidige spelers zien.

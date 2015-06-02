@@ -4,9 +4,12 @@ require('angular-route');
 // Create your app
 var app = angular.module('mahjong', ['ngRoute']);
 
+var loginController = require('./js/LoginController')(app);
+
 var gameFactory = require('./js/GameFactory')(app);
 var gameController = require('./js/GameController')(app);
-var loginController = require('./js/LoginController')(app);
+var boardController = require('./js/BoardController')(app);
+
 
 /*app.factory('httpRequestInterceptor', function ($rootScope) {
   return {     
@@ -20,10 +23,10 @@ var loginController = require('./js/LoginController')(app);
 
 app.config([ '$routeProvider', function($routeProvider)
 {
-    $routeProvider.when('/game',
+    $routeProvider.when('/games/:gameid',
     {
         templateUrl: 'partials/board.html',
-        controller: 'GameController',
+        controller: 'BoardController',
     })
     .when('/login',
     {
