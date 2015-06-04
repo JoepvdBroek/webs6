@@ -38,22 +38,23 @@ module.exports = function(app){
 		}
 
 		factory.compareTiles = function(tile1, tile2){
-
-			if(tile1.tile.suit == tile2.tile.suit){
-				//als 1 van de 2 tiles false is moet name ook overeenkomen
-				if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
-					if(tile1.tile.name == tile2.tile.name){
-						tile1.matched = true;
-						tile2.matched = true;
-						console.log('match!');
+			if(!tile1._id == tile2._id){
+				if(tile1.tile.suit == tile2.tile.suit){
+					//als 1 van de 2 tiles false is moet name ook overeenkomen
+					if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
+						if(tile1.tile.name == tile2.tile.name){
+							tile1.matched = true;
+							tile2.matched = true;
+							console.log('match!');
+						} else {
+							console.log('no match');
+						}
 					} else {
-						console.log('no match');
-					}
+						console.log('match!');
+					}	
 				} else {
-					console.log('match!');
-				}	
-			} else {
-				console.log('no match');
+					console.log('no match');
+				}
 			}
 		}
 

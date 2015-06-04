@@ -8,15 +8,18 @@ var gameFactory = require('./js/GameFactory')(app);
 var gameController = require('./js/GameController')(app);
 var loginController = require('./js/LoginController')(app);
 
-/*app.factory('httpRequestInterceptor', function ($rootScope) {
+
+app.factory('httpRequestInterceptor', function ($rootScope) {
   return {     
     request: function (config) { 
-//TODO fill stufs
- } });*/
-/*app.config([ '$httpProvider', function($httpProvider)
+      config.headers['x-username'] = window.sessionStorage.username;
+      config.headers['x-token'] = window.sessionStorage.token;
+      return config;
+ } }});
+app.config([ '$httpProvider', function($httpProvider)
 {
-    $httpProvider.interceptors.push('TokenInterceptor');
-}]);*/
+    $httpProvider.interceptors.push('httpRequestInterceptor');
+}]);
 
 app.config([ '$routeProvider', function($routeProvider)
 {
