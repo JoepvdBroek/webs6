@@ -7,10 +7,11 @@ module.exports = function(app){
 			$window.sessionStorage.token = $location.search().token;
 
 			console.log($window.sessionStorage.username + ':' + $window.sessionStorage.token);
-			$location.path('/%23/');
-		} else if($location.path() == '/logout'){ // lougout
+			$location.path('/games');
+			
+		} else if($location.path() == '/logout'){ // logout
 			$window.sessionStorage.clear();
-			$location.path('/%23/');
+			$location.path('/games');
 		}
 
 	}]);

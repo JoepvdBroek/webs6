@@ -1,7 +1,7 @@
-<div class="row"  ng-controller="GameController as gameCtrl">
+<div class="row"  ng-controller="BoardController as boardCtrl">
 	<div class="col-md-12 well">
 		<div class="gameboard">
-			<tile ng-repeat="tile in tiles | matched:false" ng-click="selectTile(tile)"></tile>
+			<tile ng-repeat="tile in boardCtrl.tiles | matched:false" ng-click="boardCtrl.selectTile(tile)"></tile>
 		</div>
 	</div>
 </div>
