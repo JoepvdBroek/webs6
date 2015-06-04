@@ -13,6 +13,28 @@ var boardController = require('./js/BoardController')(app);
 var tileDirective = require('./directives/tileDirective')(app);
 var matchedFilter = require('./directives/matchedFilter')(app);
 
+
+app.factory('httpRequestInterceptor', [ '$window' , function ($window) {
+    return {     
+        request: function (config) { 
+
+          if($window.sessionStorage.token) {
+              console.log('setting header');
+              config.headers['x-username'] = $window.sessionStorage.username;
+              config.headers['x-token'] = $window.sessionStorage.token;
+          }
+         
+          return config;
+        }
+    }
+}]);
+
+app.config([ '$httpProvider', function($httpProvider)
+{
+    $httpProvider.interceptors.push('httpRequestInterceptor');
+}]);
+
+
 app.config([ '$routeProvider', function($routeProvider)
 {
     $routeProvider.when('/games', 

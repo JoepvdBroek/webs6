@@ -43,9 +43,7 @@ module.exports = function(app){
 		}
 
 		function addPlayer(game){
-			return $http.post('https://mahjongmayhem.herokuapp.com/games/'+game.id+'/players', 
-				{  }
-			);
+			return $http.post('https://mahjongmayhem.herokuapp.com/games/'+game.id+'/players', {} );
 		}
 
 		factory.compareTiles = function(tile1, tile2){
