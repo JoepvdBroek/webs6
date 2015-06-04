@@ -1,9 +1,7 @@
 module.exports = function(app){
 
-	app.factory('GameFactory', ['$http' , function($http){
+	app.factory('GameFactory', ['$http', '$window' , function($http, $window){
 		var factory = {};
-
-		factory.username = 'Joep';
 
 		factory.getGames = function(){
 			return $http.get('https://mahjongmayhem.herokuapp.com/games');
@@ -21,20 +19,33 @@ module.exports = function(app){
 		}
 
 		factory.addGame = function(newGame) {
-			var emptyGame = { id: newGame, players: [], status: 'open', tiles : tiles};
-			factory.games.push(emptyGame);
+			
 		}
 
 		factory.joinGame = function(game) {
-			if(game.status == 'open'){
-				if (game.players.indexOf(this.username) == -1) {
-				    game.players.push(this.username);
+			console.log(game);
+			if($window.sessionStorage.username) {
+				if(game.state == 'open'){
+					if(game.players.length < game.maxPlayers){
+						if(_.contains(game.players, $window.sessionStorage.username) == false) {
+							game.players.push($window.sessionStorage.username);
+							//addPlayer(game);
+						}
+					} else {
+						alert('Deze game is al vol.');
+					}
 				} else {
-					alert('You are already in this game!');
+					alert('Game needs to be open!');
 				}
 			} else {
-				alert('Game needs to be open!');
+				alert('U moet wel ingelogd zijn.');
 			}
+		}
+
+		function addPlayer(game){
+			return $http.post('https://mahjongmayhem.herokuapp.com/games/'+game.id+'/players', 
+				{  }
+			);
 		}
 
 		factory.compareTiles = function(tile1, tile2){

@@ -5,14 +5,11 @@ module.exports = function(app){
 
 		this.games = [];
 		this.newGame = 'game5';
-		this.username = GameFactory.username;
-		this.currentGamePlayers = [];
 		this.tiles = [];
 		getGames();
 
 		function getGames(){
 			GameFactory.getGames().success(function(data){
-				//console.log(data);
 				scope.games = data;
 			}).error(function(status, data) {
 
@@ -24,6 +21,7 @@ module.exports = function(app){
 		}
 
 		this.joinGame = function(game) {
+			event.preventDefault();
 			GameFactory.joinGame(game);
 		}
 

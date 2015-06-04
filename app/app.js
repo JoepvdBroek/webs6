@@ -10,20 +10,17 @@ var gameFactory = require('./js/GameFactory')(app);
 var gameController = require('./js/GameController')(app);
 var boardController = require('./js/BoardController')(app);
 
-
-/*app.factory('httpRequestInterceptor', function ($rootScope) {
-  return {     
-    request: function (config) { 
-//TODO fill stufs
- } });*/
-/*app.config([ '$httpProvider', function($httpProvider)
-{
-    $httpProvider.interceptors.push('TokenInterceptor');
-}]);*/
+var tileDirective = require('./directives/tileDirective')(app);
+var matchedFilter = require('./directives/matchedFilter')(app);
 
 app.config([ '$routeProvider', function($routeProvider)
 {
-    $routeProvider.when('/games/:gameid',
+    $routeProvider.when('/games', 
+    {
+        templateUrl: 'partials/allGames.html',
+        controller: 'GameController',
+    })
+    .when('/games/:gameid',
     {
         templateUrl: 'partials/board.html',
         controller: 'BoardController',
@@ -38,11 +35,6 @@ app.config([ '$routeProvider', function($routeProvider)
         template: 'logout',
         controller: 'LoginController',
     })
-    .when('/games', 
-    {
-        templateUrl: 'partials/allGames.html',
-        controller: 'GameController',
-    })
     .otherwise
     ({
         redirectTo: '/'
@@ -50,33 +42,5 @@ app.config([ '$routeProvider', function($routeProvider)
 
 }]);
 
-app.filter('matched', function() {
-    return function( items, matched ) {
-      var filtered = [];
-      angular.forEach(items, function(item) {
-        if( item.matched == undefined || item.matched == matched ) {
-          filtered.push(item);
-        }
-      });
-      return filtered;
-    };
-});
 
-app.directive('tile', function() {
-  return {
-    restrict: 'E',
-    templateUrl: 'tile.dir.html',
-    controller: function ($scope){
 
-    },
-    link: function (scope, element, attrs) {
-    	var tile = scope.tile;
-  		element.css({
-  			"border": '1px solid black',
-  			"left": tile.xPos*20 + 'px',
-  			"top": tile.yPos*30 + 'px',
-  			"z-index": tile.zPos
-  		});
-    }
-  };
-});
