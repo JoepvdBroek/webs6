@@ -24,16 +24,19 @@ module.exports = function(app){
 		scope.tile1 = null;
 		scope.tile2 = null;
 		this.selectTile = function(tile){
-			console.log('selectTile()');
-			if(scope.tile1 == null){
-				scope.tile1 = tile;
-			} else {
-				scope.tile2 = tile;
-				console.log(scope.tile1);
-				console.log(scope.tile2);
-				GameFactory.compareTiles(scope.tile1, scope.tile2);
-				scope.tile1 = null;
-				scope.tile2 = null;
+			var selectable = GameFactory.isTileSelectable(scope.tiles, tile);
+			console.log('selectable: ' + selectable);
+			if(selectable){
+				if(scope.tile1 == null){
+					scope.tile1 = tile;
+				} else {
+					scope.tile2 = tile;
+					console.log(scope.tile1);
+					console.log(scope.tile2);
+					GameFactory.compareTiles(scope.tile1, scope.tile2);
+					scope.tile1 = null;
+					scope.tile2 = null;
+				}
 			}
 		}
 

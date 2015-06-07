@@ -3,13 +3,15 @@ module.exports = function(app){
 	app.factory('GameFactory', ['$http', '$window' , function($http, $window){
 		var factory = {};
 
+		var prefix = "https://mahjongmayhem.herokuapp.com";
+
 		factory.getGames = function(){
-			return $http.get('https://mahjongmayhem.herokuapp.com/games');
+			return $http.get(prefix + '/games');
 			//return factory.games;
 		}
 
 		factory.getTiles = function(gameId){
-			return $http.get('https://mahjongmayhem.herokuapp.com/games/'+gameId+'/tiles');
+			return $http.get(prefix + '/games/'+gameId+'/tiles');
 		}
 
 		//Laat nu nog alleen huidige spelers zien.
@@ -43,7 +45,7 @@ module.exports = function(app){
 		}
 
 		function addPlayer(game){
-			return $http.post('https://mahjongmayhem.herokuapp.com/games/'+game.id+'/players', {} );
+			return $http.post(prefix + '/games/'+game.id+'/players', {} );
 		}
 
 		factory.compareTiles = function(tile1, tile2){
@@ -84,6 +86,38 @@ module.exports = function(app){
 			} else {
 				return false;
 			}
+		}
+
+		factory.isTileSelectable = function(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			console.log('x: '+x+' y: '+y+' z :'+z);
+
+			if(_.findWhere(tiles, {xPos: x + 2, yPos: y, zPos: z}) !== undefined){
+				return false;
+			}
+			if(_.findWhere(tiles, {xPos: x - 2, yPos: y, zPos: z}) !== undefined){
+				return false;
+			}
+			if(_.findWhere(tiles, {xPos: x, yPos: y, zPos: z + 1}) !== undefined){
+				return false;
+			}
+			if(_.findWhere(tiles, {xPos: x + 1, yPos: y, zPos: z + 1}) !== undefined){
+				return false;
+			}
+			if(_.findWhere(tiles, {xPos: x - 1, yPos: y, zPos: z + 1}) !== undefined){
+				return false;
+			}
+			if(_.findWhere(tiles, {xPos: x, yPos: y + 1, zPos: z + 1}) !== undefined){
+				return false;
+			}
+			if(_.findWhere(tiles, {xPos: x, yPos: y - 1, zPos: z + 1}) !== undefined){
+				return false;
+			}
+
+			return true;
 		}
 
 		factory.isMatchAvailable = function(){

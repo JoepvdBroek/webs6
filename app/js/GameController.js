@@ -5,7 +5,6 @@ module.exports = function(app){
 
 		this.games = [];
 		this.newGame = 'game5';
-		this.tiles = [];
 		getGames();
 
 		function getGames(){
