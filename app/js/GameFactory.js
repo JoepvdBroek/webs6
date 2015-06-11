@@ -95,29 +95,88 @@ module.exports = function(app){
 
 			console.log('x: '+x+' y: '+y+' z :'+z);
 
-			if(_.findWhere(tiles, {xPos: x + 2, yPos: y, zPos: z}) !== undefined){
+			if(tileToRight(tiles,tile) && tileToLeft(tiles,tile)){
 				return false;
+			} else if(tileAbove(tiles, tile)){
+				return false
 			}
-			if(_.findWhere(tiles, {xPos: x - 2, yPos: y, zPos: z}) !== undefined){
-				return false;
-			}
-			if(_.findWhere(tiles, {xPos: x, yPos: y, zPos: z + 1}) !== undefined){
-				return false;
-			}
-			if(_.findWhere(tiles, {xPos: x + 1, yPos: y, zPos: z + 1}) !== undefined){
-				return false;
-			}
-			if(_.findWhere(tiles, {xPos: x - 1, yPos: y, zPos: z + 1}) !== undefined){
-				return false;
-			}
-			if(_.findWhere(tiles, {xPos: x, yPos: y + 1, zPos: z + 1}) !== undefined){
-				return false;
-			}
-			if(_.findWhere(tiles, {xPos: x, yPos: y - 1, zPos: z + 1}) !== undefined){
-				return false;
+			
+			return true;
+		}
+
+		function tileToRight(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			if(	   (_.findWhere(tiles, {xPos: x + 2, yPos: y, zPos: z}) !== undefined) 
+				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y + 1, zPos: z}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y - 1, zPos: z}) !== undefined)){
+				console.log('Tile to the right');
+				return true;
 			}
 
-			return true;
+			return false;
+		}
+
+		function tileToLeft(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			if(	   (_.findWhere(tiles, {xPos: x - 2, yPos: y, zPos: z}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y + 1, zPos: z}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y - 1, zPos: z}) !== undefined)){
+				console.log('Tile to the left');
+				return true;
+			}
+
+			return false;
+		}
+
+		function tileAbove(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			if(_.findWhere(tiles, {xPos: x, yPos: y, zPos: z + 1}) !== undefined){
+				console.log('Tile above it');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on righthalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on lefthalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x, yPos: y + 1, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on lowerhalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x, yPos: y - 1, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on upperhalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y + 1, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on lowerright corner');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y - 1, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on upperright corner');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y - 1, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on upperleft corner');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y + 1, zPos: z + 1}) !== undefined){
+				console.log('Tile above it, on lowerleft corner');
+				return true;
+			}
+
+			return false;
 		}
 
 		factory.isMatchAvailable = function(){

@@ -40,6 +40,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	//grunt.loadNpmTasks('grunt-contrib-sass');
 
 	// The default tasks to run when you type: grunt
 	grunt.registerTask('default', ['browserify', 'copy', 'watch']);
