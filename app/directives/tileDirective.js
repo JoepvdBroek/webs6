@@ -19,6 +19,7 @@ module.exports = function(app){
 		  		element.css({
 		  			"left": tile.xPos*36 + 'px',
 		  			"top": tile.yPos*46 + 'px',
+		  			"box-shadow": tile.zPos * 1 + 'px' + tile.zPos * 1 + 'px 5px 0px rgba(0,0,0,0.75)',
 		  			"z-index": tile.zPos
 		  		});
 

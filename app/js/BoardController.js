@@ -33,11 +33,22 @@ module.exports = function(app){
 					scope.tile2 = tile;
 					console.log(scope.tile1);
 					console.log(scope.tile2);
-					GameFactory.compareTiles(scope.tile1, scope.tile2);
+					if(GameFactory.compareTiles(scope.tile1, scope.tile2)){
+						matchTiles(scope.tile1, scope.tile2);
+					}
 					scope.tile1 = null;
 					scope.tile2 = null;
 				}
 			}
+		}
+
+		function matchTiles(tile1, tile2){
+			GameFactory.matchTiles(scope.gameId, tile1, tile2).success(function(data){
+					
+			}).error(function(status, data) {
+				console.log(status);
+				console.log(data);
+			});
 		}
 
 	}]);

@@ -11,7 +11,7 @@ module.exports = function(app){
 		}
 
 		factory.getTiles = function(gameId){
-			return $http.get(prefix + '/games/'+gameId+'/tiles');
+			return $http.get(prefix + '/games/'+gameId+'/tiles?matched=false');
 		}
 
 		//Laat nu nog alleen huidige spelers zien.
@@ -25,19 +25,26 @@ module.exports = function(app){
 		}
 
 		factory.joinGame = function(game) {
-			console.log(game);
 			if($window.sessionStorage.username) {
 				if(game.state == 'open'){
 					if(game.players.length < game.maxPlayers){
-						if(_.contains(game.players, $window.sessionStorage.username) == false) {
+						var join = true;
+						for (i = 0; i < game.players.length; i++) {
+							if(game.players[i]._id == $window.sessionStorage.username){
+								join = false;
+							}
+						} 
+						if(join) {
 							game.players.push($window.sessionStorage.username);
-							//addPlayer(game);
+							addPlayer(game);
+						} else {
+							alert('U zit al in deze game');
 						}
 					} else {
 						alert('Deze game is al vol.');
 					}
 				} else {
-					alert('Game needs to be open!');
+					alert('Game is al gestart!');
 				}
 			} else {
 				alert('U moet wel ingelogd zijn.');
@@ -45,6 +52,10 @@ module.exports = function(app){
 		}
 
 		function addPlayer(game){
+			/*- Je bent ingelogd
+			- De game is nog niet gestart
+			- Je zit nog niet in de game
+			- De game heeft nog niet het maximaal aantal deelnemers*/
 			return $http.post(prefix + '/games/'+game.id+'/players', {} );
 		}
 
@@ -58,34 +69,35 @@ module.exports = function(app){
 						if(tile1.tile.name == tile2.tile.name){
 							tile1.matched = true;
 							tile2.matched = true;
+							return true;
 							console.log('match!');
 						} else {
+							return false;
 							console.log('no match');
 						}
 					} else {
+						return false;
 						console.log('match!');
 					}	
 				} else {
+					return false;
 					console.log('no match');
 				}
 			}
+
+			return false;
 		}
 
-		function compareTiles(tile1, tile2){
-			if(tile1.tile.suit == tile2.tile.suit){
-				//als 1 van de 2 tiles false is moet name ook overeenkomen
-				if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
-					if(tile1.tile.name == tile2.tile.name){
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return true;
-				}	
-			} else {
-				return false;
-			}
+		factory.matchTiles = function(gameId, tile1, tile2){
+			console.log({
+                "tile1Id": tile1._id,
+                "tile2Id": tile2._id
+			});
+			return $http.post(prefix + '/games/'+gameId+'/tiles/matches', 
+			{
+                "tile1Id": tile1._id,
+                "tile2Id": tile2._id
+			});
 		}
 
 		factory.isTileSelectable = function(tiles, tile){
@@ -109,9 +121,9 @@ module.exports = function(app){
 			var y = tile.yPos;
 			var z = tile.zPos;
 
-			if(	   (_.findWhere(tiles, {xPos: x + 2, yPos: y, zPos: z}) !== undefined) 
-				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y + 1, zPos: z}) !== undefined)
-				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y - 1, zPos: z}) !== undefined)){
+			if(	   (_.findWhere(tiles, {xPos: x + 2, yPos: y, zPos: z, matched: false}) !== undefined) 
+				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y + 1, zPos: z, matched: false}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y - 1, zPos: z, matched: false}) !== undefined)){
 				console.log('Tile to the right');
 				return true;
 			}
@@ -124,9 +136,9 @@ module.exports = function(app){
 			var y = tile.yPos;
 			var z = tile.zPos;
 
-			if(	   (_.findWhere(tiles, {xPos: x - 2, yPos: y, zPos: z}) !== undefined)
-				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y + 1, zPos: z}) !== undefined)
-				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y - 1, zPos: z}) !== undefined)){
+			if(	   (_.findWhere(tiles, {xPos: x - 2, yPos: y, zPos: z, matched: false}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y + 1, zPos: z, matched: false}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y - 1, zPos: z, matched: false}) !== undefined)){
 				console.log('Tile to the left');
 				return true;
 			}
@@ -139,39 +151,39 @@ module.exports = function(app){
 			var y = tile.yPos;
 			var z = tile.zPos;
 
-			if(_.findWhere(tiles, {xPos: x, yPos: y, zPos: z + 1}) !== undefined){
+			if(_.findWhere(tiles, {xPos: x, yPos: y, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on righthalf');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on lefthalf');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x, yPos: y + 1, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x, yPos: y + 1, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on lowerhalf');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x, yPos: y - 1, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x, yPos: y - 1, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on upperhalf');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y + 1, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y + 1, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on lowerright corner');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y - 1, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y - 1, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on upperright corner');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y - 1, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y - 1, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on upperleft corner');
 				return true;
 			}
-			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y + 1, zPos: z + 1}) !== undefined){
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y + 1, zPos: z + 1, matched: false}) !== undefined){
 				console.log('Tile above it, on lowerleft corner');
 				return true;
 			}
@@ -179,7 +191,7 @@ module.exports = function(app){
 			return false;
 		}
 
-		factory.isMatchAvailable = function(){
+		/*factory.isMatchAvailable = function(){
 			for (i = 0; i < collection.length; i++) { 
 				for (x = 0; x < collection.length; x++) { 
 					if(collection[i]._id == collection[x]._id){
@@ -194,7 +206,7 @@ module.exports = function(app){
 			}
 			console.log('no match found');
 			return false;
-		}
+		}*/
 
 		return factory;
 	}]);
