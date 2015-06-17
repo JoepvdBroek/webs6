@@ -3,30 +3,69 @@ module.exports = function(app){
 	app.controller('GameController', ['GameFactory' , function(GameFactory){
 		var scope = this;
 
-		this.games = [];
-		this.newGame = 'game5';
+		scope.pageIndex = 0;
+		scope.pageSize = 25;
+		scope.showModal = false;
+		scope.games = [];
+		scope.templates = [];
 		getGames();
+		getTemplates();
+
+	    function getTemplates(){
+	    	GameFactory.getTemplates().success(function(data){
+				scope.templates = data;
+			}).error(function(status, data) {
+				console.log(status);
+                console.log(data);
+			});
+	    }
 
 		function getGames(){
-			GameFactory.getGames().success(function(data){
+			console.log('page: '+ scope.pageIndex);
+			GameFactory.getGames(scope.pageIndex, scope.pageSize).success(function(data){
 				scope.games = data;
 			}).error(function(status, data) {
-
+				console.log(status);
+                console.log(data);
 			});
 		}
 
-		this.addGame = function() {
-			GameFactory.addGame(scope.newGame);
+		scope.addGame = function(template) {
+			GameFactory.addGame(template).success(function(data){
+				scope.games.unshift(data);
+				alert('Game is aangemaakt.');
+			}).error(function(status, data) {
+				console.log(status);
+                console.log(data);
+			});
+
+			scope.toggleModal();
 		}
 
-		this.joinGame = function(game) {
+		scope.joinGame = function(game) {
 			event.preventDefault();
 			GameFactory.joinGame(game);
 		}
 
-		this.openGame = function(game){
+		scope.openGame = function(game){
 			scope.currentGamePlayers = GameFactory.openGame(game);
 			scope.currentGameTiles = game.tiles;
+		}
+
+		scope.toggleModal = function(){
+	        scope.showModal = !scope.showModal;
+	    };
+
+		scope.nextPage = function(){
+			scope.pageIndex = scope.pageIndex + 1;
+			getGames();
+		}
+
+		scope.prevPage = function(){
+			if(scope.pageIndex > 0){
+				scope.pageIndex = scope.pageIndex - 1;
+				getGames();
+			}
 		}
 
 	}]);

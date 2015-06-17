@@ -5,22 +5,34 @@ module.exports = function(app){
 
 		var prefix = "https://mahjongmayhem.herokuapp.com";
 
-		factory.getGames = function(){
-			return $http.get(prefix + '/games');
-			//return factory.games;
+		factory.getGames = function(pageIndex, pageSize){
+			var url = prefix + '/games?';
+
+			if(pageSize != undefined){ url += 'pageSize='+pageSize }
+			if(pageIndex != undefined){ url += '&pageIndex='+pageIndex }
+
+			return $http.get(url);
 		}
 
 		factory.getTiles = function(gameId){
 			return $http.get(prefix + '/games/'+gameId+'/tiles?matched=false');
 		}
 
-		//Laat nu nog alleen huidige spelers zien.
-		factory.openGame = function(game){
-			factory.currentGamePlayers = game.players;
-			return factory.currentGamePlayers;
+		factory.getTemplates = function(){
+			return $http.get(prefix + '/GameTemplates');
 		}
 
-		factory.addGame = function(newGame) {
+		factory.addGame = function(template) {
+			if($window.sessionStorage.username) {
+				return $http.post(prefix + '/games/', 
+				{
+					"templateName": template,
+					"minPlayers": 2,
+					"maxPlayers": 32
+				});
+			} else {
+				alert('U moet ingelogd zijn.');
+			}
 			
 		}
 

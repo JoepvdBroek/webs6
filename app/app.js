@@ -11,7 +11,8 @@ var gameController = require('./js/GameController')(app);
 var boardController = require('./js/BoardController')(app);
 
 var tileDirective = require('./directives/tileDirective')(app);
-var matchedFilter = require('./directives/matchedFilter')(app);
+var matchedFilter = require('./directives/filters')(app);
+var modalDirective = require('./directives/modal')(app);
 
 
 app.factory('httpRequestInterceptor', [ '$window' , function ($window) {

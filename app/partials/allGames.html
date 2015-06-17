@@ -1,9 +1,10 @@
 <div class="row" ng-controller="GameController as gameCtrl">
+	<button ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
  	<div class="col-md-12 well">
 		<table class="table simple">
 			<thead>
 				<tr>
-					<th>Id</th>
+					<th>Eigenaar</th>
 					<th>Aantal spelers</th>
 					<th>Game template</th>
 					<th>State</th>
@@ -12,16 +13,32 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="game in gameCtrl.games" id="{{game._id}}">
-					<td>{{ game.id }}</td>
+					<td>{{ game.createdBy.name }}</td>
 					<td>{{ game.players.length }}</td>
 					<td>{{ game.gameTemplate.id }}</td>
 					<td>{{ game.state }}</td>
 					<td>
-						<span ng-if="game.state == 'open'"><a ng-click="gameCtrl.joinGame(game)">Join</a></span>
+						<span ng-if="game.state == 'open'"><a ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
 						<span ng-if="game.state == 'playing'"><a href="#/games/{{ game.id }}" >Open</a><span>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		<button ng-click="gameCtrl.prevPage()" ng-if="gameCtrl.pageIndex > 0" type="button" class="btn btn-default">Vorige pagina</button>
+		<button ng-click="gameCtrl.nextPage()" type="button" class="btn btn-default">Volgende pagina</button>
 	</div>
+
+	<modal title="Game form" visible="gameCtrl.showModal">
+	    <form role="form">
+	      <div class="form-group">
+	        <label for="email">Game template</label>
+	        <select class="form-control" ng-model="game.template">
+			  <option ng-repeat="template in gameCtrl.templates" value="{{template._id}}">{{template._id}}</option>
+			</select>
+	      </div>
+	      <button type="submit" class="btn btn-default" ng-click="gameCtrl.addGame(game.template)">Maak aan</button>
+	    </form>
+    </modal>
 </div>
+
+
