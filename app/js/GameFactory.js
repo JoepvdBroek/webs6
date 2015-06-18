@@ -3,47 +3,111 @@ module.exports = function(app){
 	app.factory('GameFactory', ['$http', '$window' , function($http, $window){
 		var factory = {};
 
-		factory.getGames = function(){
-			return $http.get('https://mahjongmayhem.herokuapp.com/games');
-			//return factory.games;
+		var prefix = "https://mahjongmayhem.herokuapp.com";
+
+		factory.getGames = function(queries){
+			var url = prefix + '/games';
+
+			if(queries.pageSize != undefined){ url += '?pageSize='+queries.pageSize }
+			if(queries.pageIndex != undefined){ url += '&pageIndex='+queries.pageIndex }
+			if(queries.onlyJoinedGames && $window.sessionStorage.username){ url += '&player='+$window.sessionStorage.username }
+			if(queries.state != undefined){ url += '&state='+queries.state }
+
+			return $http.get(url);
 		}
 
 		factory.getTiles = function(gameId){
-			return $http.get('https://mahjongmayhem.herokuapp.com/games/'+gameId+'/tiles');
+			return $http.get(prefix + '/games/'+gameId+'/tiles?matched=false');
 		}
 
-		//Laat nu nog alleen huidige spelers zien.
-		factory.openGame = function(game){
-			factory.currentGamePlayers = game.players;
-			return factory.currentGamePlayers;
+		factory.getTemplates = function(){
+			return $http.get(prefix + '/GameTemplates');
 		}
 
-		factory.addGame = function(newGame) {
+		factory.addGame = function(template) {
+			if($window.sessionStorage.username) {
+				return $http.post(prefix + '/games/', 
+				{
+					"templateName": template,
+					"minPlayers": 2,
+					"maxPlayers": 32
+				});
+			} else {
+				alert('U moet ingelogd zijn.');
+			}
+			
+		}
+
+		factory.startGame = function(game){
+			if(game.state = 'open'){
+				if($window.sessionStorage.username){
+					if(factory.isUserOwner(game)){
+						return $http.post(prefix + '/games/'+game.id+'/start', {} );
+					} else {
+						alert('U bent niet te eigenaar van deze game');
+					}
+				} else {
+					alert('U moet ingelogd zijn.');
+				} 
+			} else {
+				alert('Game is al gestart');
+			}
 			
 		}
 
 		factory.joinGame = function(game) {
-			console.log(game);
 			if($window.sessionStorage.username) {
 				if(game.state == 'open'){
 					if(game.players.length < game.maxPlayers){
-						if(_.contains(game.players, $window.sessionStorage.username) == false) {
+						var joined = false;
+						
+						joined = factory.doesGameContainUser(game);
+
+						if(!joined) {
 							game.players.push($window.sessionStorage.username);
-							//addPlayer(game);
+							addPlayer(game);
+						} else {
+							alert('U zit al in deze game');
 						}
 					} else {
 						alert('Deze game is al vol.');
 					}
 				} else {
-					alert('Game needs to be open!');
+					alert('Game is al gestart!');
 				}
 			} else {
 				alert('U moet wel ingelogd zijn.');
 			}
 		}
 
+		factory.doesGameContainUser = function(game){
+			if($window.sessionStorage.username) {
+				for (i = 0; i < game.players.length; i++) {
+					if(game.players[i]._id == $window.sessionStorage.username){
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		factory.isUserOwner = function(game){
+			if($window.sessionStorage.username) {
+				if(game.createdBy._id == $window.sessionStorage.username){
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		function addPlayer(game){
-			return $http.post('https://mahjongmayhem.herokuapp.com/games/'+game.id+'/players', {} );
+			/*- Je bent ingelogd
+			- De game is nog niet gestart
+			- Je zit nog niet in de game
+			- De game heeft nog niet het maximaal aantal deelnemers*/
+			return $http.post(prefix + '/games/'+game.id+'/players', {} );
 		}
 
 		factory.compareTiles = function(tile1, tile2){
@@ -54,52 +118,151 @@ module.exports = function(app){
 					//als 1 van de 2 tiles false is moet name ook overeenkomen
 					if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
 						if(tile1.tile.name == tile2.tile.name){
-							tile1.matched = true;
-							tile2.matched = true;
+							return true;
 							console.log('match!');
 						} else {
+							return false;
 							console.log('no match');
 						}
 					} else {
+						return false;
 						console.log('match!');
 					}	
 				} else {
+					return false;
 					console.log('no match');
 				}
 			}
+
+			return false;
 		}
 
-		function compareTiles(tile1, tile2){
-			if(tile1.tile.suit == tile2.tile.suit){
-				//als 1 van de 2 tiles false is moet name ook overeenkomen
-				if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
-					if(tile1.tile.name == tile2.tile.name){
-						return true;
-					} else {
-						return false;
-					}
-				} else {
-					return true;
-				}	
-			} else {
+		factory.matchTiles = function(gameId, tile1, tile2){
+			return $http.post(prefix + '/games/'+gameId+'/tiles/matches', 
+			{
+                "tile1Id": tile1._id,
+                "tile2Id": tile2._id
+			});
+		}
+
+		factory.isTileSelectable = function(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			console.log('x: '+x+' y: '+y+' z :'+z);
+
+			if(tileToRight(tiles,tile) && tileToLeft(tiles,tile)){
 				return false;
+			} else if(tileAbove(tiles, tile)){
+				return false
 			}
+			
+			return true;
 		}
 
-		factory.isMatchAvailable = function(){
+		function tileToRight(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			if(	   (_.findWhere(tiles, {xPos: x + 2, yPos: y, zPos: z, matched: false}) !== undefined) 
+				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y + 1, zPos: z, matched: false}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x + 2, yPos: y - 1, zPos: z, matched: false}) !== undefined)){
+				console.log('Tile to the right');
+				return true;
+			}
+
+			return false;
+		}
+
+		function tileToLeft(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			if(	   (_.findWhere(tiles, {xPos: x - 2, yPos: y, zPos: z, matched: false}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y + 1, zPos: z, matched: false}) !== undefined)
+				|| (_.findWhere(tiles, {xPos: x - 2, yPos: y - 1, zPos: z, matched: false}) !== undefined)){
+				console.log('Tile to the left');
+				return true;
+			}
+
+			return false;
+		}
+
+		function tileAbove(tiles, tile){
+			var x = tile.xPos;
+			var y = tile.yPos;
+			var z = tile.zPos;
+
+			if(_.findWhere(tiles, {xPos: x, yPos: y, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on righthalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on lefthalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x, yPos: y + 1, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on lowerhalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x, yPos: y - 1, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on upperhalf');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y + 1, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on lowerright corner');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x + 1, yPos: y - 1, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on upperright corner');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y - 1, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on upperleft corner');
+				return true;
+			}
+			else if(_.findWhere(tiles, {xPos: x - 1, yPos: y + 1, zPos: z + 1, matched: false}) !== undefined){
+				console.log('Tile above it, on lowerleft corner');
+				return true;
+			}
+
+			return false;
+		}
+
+		factory.filterTiles = function(tiles){
+			var filtered = [];
+			angular.forEach(tiles, function(tile) {
+				if(!tile.matched) {
+					if(factory.isTileSelectable(tiles, tile)){
+						filtered.push(tile);
+					}
+				}
+			});
+			return filtered;
+		}
+
+		factory.isMatchAvailable = function(tiles){
+			//filter alle tegels op niet gematched tegels en tegels die klikbaar zijn.
+			collection = factory.filterTiles(tiles);
+
 			for (i = 0; i < collection.length; i++) { 
 				for (x = 0; x < collection.length; x++) { 
 					if(collection[i]._id == collection[x]._id){
 						//zelfde tile
 					} else {
-						if(compareTiles(collection[i], collection[x])){
-							console.log('match found!');
+						if(factory.compareTiles(collection[i], collection[x])){
 							return true;
 						}
 					}
 				}
 			}
-			console.log('no match found');
 			return false;
 		}
 

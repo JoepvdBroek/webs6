@@ -3,9 +3,9 @@ module.exports = function(app){
 	app.controller('BoardController', ['GameFactory', '$routeParams', function(GameFactory, $routeParams){
 		var scope = this;
 
-		this.gameId = $routeParams.gameid;
-		this.username = GameFactory.username;
-		this.tiles = [];
+		scope.gameId = $routeParams.gameid;
+		scope.username = GameFactory.username;
+		scope.tiles = [];
 		getTiles();
  		
 		function getTiles(){
@@ -23,17 +23,41 @@ module.exports = function(app){
 
 		scope.tile1 = null;
 		scope.tile2 = null;
-		this.selectTile = function(tile){
-			console.log('selectTile()');
-			if(scope.tile1 == null){
-				scope.tile1 = tile;
+		scope.selectTile = function(tile){
+			var selectable = GameFactory.isTileSelectable(scope.tiles, tile);
+			console.log('selectable: ' + selectable);
+			if(selectable){
+				if(scope.tile1 == null){
+					scope.tile1 = tile;
+				} else {
+					scope.tile2 = tile;
+					console.log(scope.tile1);
+					console.log(scope.tile2);
+					if(GameFactory.compareTiles(scope.tile1, scope.tile2)){
+						matchTiles(scope.tile1, scope.tile2);
+						scope.tile1.matched = true;
+						scope.tile2.matched = true;
+					}
+					scope.tile1 = null;
+					scope.tile2 = null;
+				}
+			}
+		}
+
+		function matchTiles(tile1, tile2){
+			GameFactory.matchTiles(scope.gameId, tile1, tile2).success(function(data){
+					
+			}).error(function(status, data) {
+				console.log(status);
+				console.log(data);
+			});
+		}
+
+		scope.isMatchAvailable = function(){
+			if(GameFactory.isMatchAvailable(scope.tiles)){
+				alert('Er is nog een match');
 			} else {
-				scope.tile2 = tile;
-				console.log(scope.tile1);
-				console.log(scope.tile2);
-				GameFactory.compareTiles(scope.tile1, scope.tile2);
-				scope.tile1 = null;
-				scope.tile2 = null;
+				alert('Er zijn geen matches meer mogelijk');
 			}
 		}
 

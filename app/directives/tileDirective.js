@@ -3,24 +3,31 @@ module.exports = function(app){
 	app.directive('tile', function() {
 	  	return {
 		    restrict: 'E',
-		    templateUrl: 'tile.dir.html',
+		    //templateUrl: 'tile.dir.html',
 		    controller: function ($scope){
 
 		    },
 		    link: function (scope, element, attrs) {
 		    	var tile = scope.tile;
+
+		    	var x = tile.xPos * 20;
+		    	var y = tile.xPos * 30;
+
+		    	x = x - (tile.zPos * 1);
+		    	y = y - (tile.zPos * 1);
+
 		  		element.css({
-		  			"border": '1px solid black',
-		  			"left": tile.xPos*20 + 'px',
-		  			"top": tile.yPos*30 + 'px',
+		  			"left": tile.xPos*36 + 'px',
+		  			"top": tile.yPos*46 + 'px',
+		  			"box-shadow": tile.zPos * 1 + 'px' + tile.zPos * 1 + 'px 5px 0px rgba(0,0,0,0.75)',
 		  			"z-index": tile.zPos
 		  		});
 
-		  		/*element.css({'background': 'url(assets/Mahjong_sprite_sheet_2.png)'});
-				var amount = tile.name;
+		  		element.css({'background': 'url(assets/Mahjong_sprite_sheet_2.png)'});
+				var amount = tile.tile.name;
 				var toRight = 0;
 
-				switch(tile.suit){
+				switch(tile.tile.suit){
 					case 'Bamboo':
 						toRight = (amount - 1) * 73.14;
 						element.css({'background': 'url(assets/Mahjong_sprite_sheet_2.png) -' + toRight + 'px -90.33px'});
@@ -101,7 +108,7 @@ module.exports = function(app){
 							element.css({'background': 'url(assets/Mahjong_sprite_sheet_2.png) -' + toRight + 'px -180.66px'});
 							break;
 						}
-				}*/
+				}
 		    }
 		};
 	});

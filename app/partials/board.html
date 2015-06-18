@@ -1,4 +1,7 @@
 <div class="row"  ng-controller="BoardController as boardCtrl">
+
+	<button id="checkButton" ng-click="boardCtrl.isMatchAvailable()" type="button" class="btn btn-default">Is er nog een match?</button>
+
 	<div class="col-md-12 well">
 		<div class="gameboard">
 			<tile ng-repeat="tile in boardCtrl.tiles | matched:false" ng-click="boardCtrl.selectTile(tile)"></tile>
