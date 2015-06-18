@@ -5,11 +5,13 @@ module.exports = function(app){
 
 		var prefix = "https://mahjongmayhem.herokuapp.com";
 
-		factory.getGames = function(pageIndex, pageSize){
-			var url = prefix + '/games?';
+		factory.getGames = function(queries){
+			var url = prefix + '/games';
 
-			if(pageSize != undefined){ url += 'pageSize='+pageSize }
-			if(pageIndex != undefined){ url += '&pageIndex='+pageIndex }
+			if(queries.pageSize != undefined){ url += '?pageSize='+queries.pageSize }
+			if(queries.pageIndex != undefined){ url += '&pageIndex='+queries.pageIndex }
+			if(queries.onlyJoinedGames && $window.sessionStorage.username){ url += '&player='+$window.sessionStorage.username }
+			if(queries.state != undefined){ url += '&state='+queries.state }
 
 			return $http.get(url);
 		}
@@ -36,17 +38,32 @@ module.exports = function(app){
 			
 		}
 
+		factory.startGame = function(game){
+			if(game.state = 'open'){
+				if($window.sessionStorage.username){
+					if(factory.isUserOwner(game)){
+						return $http.post(prefix + '/games/'+game.id+'/start', {} );
+					} else {
+						alert('U bent niet te eigenaar van deze game');
+					}
+				} else {
+					alert('U moet ingelogd zijn.');
+				} 
+			} else {
+				alert('Game is al gestart');
+			}
+			
+		}
+
 		factory.joinGame = function(game) {
 			if($window.sessionStorage.username) {
 				if(game.state == 'open'){
 					if(game.players.length < game.maxPlayers){
-						var join = true;
-						for (i = 0; i < game.players.length; i++) {
-							if(game.players[i]._id == $window.sessionStorage.username){
-								join = false;
-							}
-						} 
-						if(join) {
+						var joined = false;
+						
+						joined = factory.doesGameContainUser(game);
+
+						if(!joined) {
 							game.players.push($window.sessionStorage.username);
 							addPlayer(game);
 						} else {
@@ -61,6 +78,28 @@ module.exports = function(app){
 			} else {
 				alert('U moet wel ingelogd zijn.');
 			}
+		}
+
+		factory.doesGameContainUser = function(game){
+			if($window.sessionStorage.username) {
+				for (i = 0; i < game.players.length; i++) {
+					if(game.players[i]._id == $window.sessionStorage.username){
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		factory.isUserOwner = function(game){
+			if($window.sessionStorage.username) {
+				if(game.createdBy._id == $window.sessionStorage.username){
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		function addPlayer(game){

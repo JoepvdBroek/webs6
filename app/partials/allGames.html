@@ -1,5 +1,16 @@
 <div class="row" ng-controller="GameController as gameCtrl">
 	<button ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
+	<button id="yourGamesButton" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="btn btn-default">Alleen jouw games</button>
+
+	<form  class="form-inline" role="form">
+		<div class="form-group" >
+			<label for="stateselect">State</label>
+			<select id="stateselect" class="form-control" ng-model="gameCtrl.state" ng-change="gameCtrl.refreshGames()">
+			  	<option value="open">open</option>
+			  	<option value="playing">playing</option>
+			</select>
+		</div>
+	</form>
  	<div class="col-md-12 well">
 		<table class="table simple">
 			<thead>
@@ -18,20 +29,21 @@
 					<td>{{ game.gameTemplate.id }}</td>
 					<td>{{ game.state }}</td>
 					<td>
-						<span ng-if="game.state == 'open'"><a ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
-						<span ng-if="game.state == 'playing'"><a href="#/games/{{ game.id }}" >Open</a><span>
+						<span ng-if="game.state == 'open' && gameCtrl.doesGameContainUser(game) == false"><a ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
+						<span ng-if="game.state == 'open' && gameCtrl.isUserOwner(game)"><a ng-click="gameCtrl.startGame(game)">Start game</a></span>
+						<span ng-if="game.state == 'playing' && gameCtrl.doesGameContainUser(game)"><a href="#/games/{{ game.id }}" >Open</a><span>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 		<button ng-click="gameCtrl.prevPage()" ng-if="gameCtrl.pageIndex > 0" type="button" class="btn btn-default">Vorige pagina</button>
-		<button ng-click="gameCtrl.nextPage()" type="button" class="btn btn-default">Volgende pagina</button>
+		<button ng-click="gameCtrl.nextPage()" ng-if="gameCtrl.games.length == gameCtrl.pageSize"type="button" class="btn btn-default">Volgende pagina</button>
 	</div>
 
 	<modal title="Game form" visible="gameCtrl.showModal">
 	    <form role="form">
 	      <div class="form-group">
-	        <label for="email">Game template</label>
+	        <label>Game template</label>
 	        <select class="form-control" ng-model="game.template">
 			  <option ng-repeat="template in gameCtrl.templates" value="{{template._id}}">{{template._id}}</option>
 			</select>
