@@ -3,18 +3,42 @@ module.exports = function(app){
 	app.controller('BoardController', ['GameFactory', '$routeParams', function(GameFactory, $routeParams){
 		var scope = this;
 
+		scope.tab = 1;
 		scope.gameId = $routeParams.gameid;
 		scope.username = GameFactory.username;
 		scope.tiles = [];
+		scope.matches = [];
+		scope.game = {};
 		getTiles();
+		getGame();
+		getMatches();
  		
 		function getTiles(){
 			GameFactory.getTiles(scope.gameId).success(function(data) {
 				for (i = 0; i < data.length; i++) { 
 					data[i].matched = false;
 				}
-            scope.tiles = data;
+            	scope.tiles = data;
                 
+            }).error(function(status, data) {
+                console.log(status);
+                console.log(data);
+            });
+		}
+
+		function getMatches(){
+			GameFactory.getMatches(scope.gameId).success(function(data) {
+				console.log(data);
+            	scope.matches = data;       
+            }).error(function(status, data) {
+                console.log(status);
+                console.log(data);
+            });
+		}
+
+		function getGame(){
+			GameFactory.getGame(scope.gameId).success(function(data) {
+            	scope.game = data;       
             }).error(function(status, data) {
                 console.log(status);
                 console.log(data);
@@ -46,7 +70,7 @@ module.exports = function(app){
 
 		function matchTiles(tile1, tile2){
 			GameFactory.matchTiles(scope.gameId, tile1, tile2).success(function(data){
-					
+				getMatches();
 			}).error(function(status, data) {
 				console.log(status);
 				console.log(data);
@@ -61,6 +85,13 @@ module.exports = function(app){
 			}
 		}
 
+		scope.selectTab = function(tab){
+			scope.tab = tab;
+		}
+
+		scope.isSelected = function(tab){
+			return scope.tab === tab;
+		}
 	}]);
 	
 }

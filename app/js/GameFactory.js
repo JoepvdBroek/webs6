@@ -5,6 +5,10 @@ module.exports = function(app){
 
 		var prefix = "https://mahjongmayhem.herokuapp.com";
 
+		factory.getGame = function(gameId){
+			return $http.get(prefix + '/games/'+gameId);
+		}
+
 		factory.getGames = function(queries){
 			var url = prefix + '/games';
 
@@ -18,6 +22,10 @@ module.exports = function(app){
 
 		factory.getTiles = function(gameId){
 			return $http.get(prefix + '/games/'+gameId+'/tiles?matched=false');
+		}
+
+		factory.getMatches = function(gameId){
+			return $http.get(prefix + '/games/'+gameId+'/tiles/matches');
 		}
 
 		factory.getTemplates = function(){

@@ -2,9 +2,26 @@
 
 	<button id="checkButton" ng-click="boardCtrl.isMatchAvailable()" type="button" class="btn btn-default">Is er nog een match?</button>
 
-	<div class="col-md-12 well">
+	<div>
+		<ul class="nav nav-pills">
+			<li ng-click="boardCtrl.selectTab(1)" ng-class="{ active:boardCtrl.isSelected(1) }"><a href>Bord</a></li>
+			<li ng-click="boardCtrl.selectTab(2)" ng-class="{ active:boardCtrl.isSelected(2) }"><a href>Matches</a></li>
+		</ul>
+	</div>
+
+	
+
+	<div class="panel" ng-show="boardCtrl.isSelected(1)">
 		<div class="gameboard">
 			<tile ng-repeat="tile in boardCtrl.tiles | matched:false" ng-click="boardCtrl.selectTile(tile)"></tile>
+		</div>
+	</div>
+	<div class="panel" ng-show="boardCtrl.isSelected(2)">
+		<div class="panel panel-default" ng-repeat="player in boardCtrl.game.players">
+			<div class="panel-heading">{{ player.name }}</div>
+			<div class="panel-body">
+			    <match ng-repeat="tile in boardCtrl.matches | matches:player._id"></match>
+			</div>
 		</div>
 	</div>
 </div>
