@@ -13,7 +13,7 @@
 
 	<div class="panel" ng-show="boardCtrl.isSelected(1)">
 		<div class="gameboard">
-			<tile ng-repeat="tile in boardCtrl.tiles | matched:false" ng-click="boardCtrl.selectTile(tile)"></tile>
+			<tile ng-repeat="tile in boardCtrl.tiles | matched:false" ng-click="boardCtrl.selectTile(tile)"ng-class="{ selected:tile.selected }"></tile>
 		</div>
 	</div>
 	<div class="panel" ng-show="boardCtrl.isSelected(2)">

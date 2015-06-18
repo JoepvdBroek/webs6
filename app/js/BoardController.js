@@ -28,7 +28,6 @@ module.exports = function(app){
 
 		function getMatches(){
 			GameFactory.getMatches(scope.gameId).success(function(data) {
-				console.log(data);
             	scope.matches = data;       
             }).error(function(status, data) {
                 console.log(status);
@@ -53,6 +52,7 @@ module.exports = function(app){
 			if(selectable){
 				if(scope.tile1 == null){
 					scope.tile1 = tile;
+					scope.tile1.selected = true;
 				} else {
 					scope.tile2 = tile;
 					console.log(scope.tile1);
@@ -62,6 +62,7 @@ module.exports = function(app){
 						scope.tile1.matched = true;
 						scope.tile2.matched = true;
 					}
+					scope.tile1.selected = false;
 					scope.tile1 = null;
 					scope.tile2 = null;
 				}
