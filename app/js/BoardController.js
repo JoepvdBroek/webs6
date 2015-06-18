@@ -3,9 +3,9 @@ module.exports = function(app){
 	app.controller('BoardController', ['GameFactory', '$routeParams', function(GameFactory, $routeParams){
 		var scope = this;
 
-		this.gameId = $routeParams.gameid;
-		this.username = GameFactory.username;
-		this.tiles = [];
+		scope.gameId = $routeParams.gameid;
+		scope.username = GameFactory.username;
+		scope.tiles = [];
 		getTiles();
  		
 		function getTiles(){
@@ -23,7 +23,7 @@ module.exports = function(app){
 
 		scope.tile1 = null;
 		scope.tile2 = null;
-		this.selectTile = function(tile){
+		scope.selectTile = function(tile){
 			var selectable = GameFactory.isTileSelectable(scope.tiles, tile);
 			console.log('selectable: ' + selectable);
 			if(selectable){
@@ -35,6 +35,8 @@ module.exports = function(app){
 					console.log(scope.tile2);
 					if(GameFactory.compareTiles(scope.tile1, scope.tile2)){
 						matchTiles(scope.tile1, scope.tile2);
+						scope.tile1.matched = true;
+						scope.tile2.matched = true;
 					}
 					scope.tile1 = null;
 					scope.tile2 = null;
@@ -49,6 +51,14 @@ module.exports = function(app){
 				console.log(status);
 				console.log(data);
 			});
+		}
+
+		scope.isMatchAvailable = function(){
+			if(GameFactory.isMatchAvailable(scope.tiles)){
+				alert('Er is nog een match');
+			} else {
+				alert('Er zijn geen matches meer mogelijk');
+			}
 		}
 
 	}]);

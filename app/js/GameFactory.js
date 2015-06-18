@@ -118,8 +118,6 @@ module.exports = function(app){
 					//als 1 van de 2 tiles false is moet name ook overeenkomen
 					if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
 						if(tile1.tile.name == tile2.tile.name){
-							tile1.matched = true;
-							tile2.matched = true;
 							return true;
 							console.log('match!');
 						} else {
@@ -140,10 +138,6 @@ module.exports = function(app){
 		}
 
 		factory.matchTiles = function(gameId, tile1, tile2){
-			console.log({
-                "tile1Id": tile1._id,
-                "tile2Id": tile2._id
-			});
 			return $http.post(prefix + '/games/'+gameId+'/tiles/matches', 
 			{
                 "tile1Id": tile1._id,
@@ -242,22 +236,35 @@ module.exports = function(app){
 			return false;
 		}
 
-		/*factory.isMatchAvailable = function(){
+		factory.filterTiles = function(tiles){
+			var filtered = [];
+			angular.forEach(tiles, function(tile) {
+				if(!tile.matched) {
+					if(factory.isTileSelectable(tiles, tile)){
+						filtered.push(tile);
+					}
+				}
+			});
+			return filtered;
+		}
+
+		factory.isMatchAvailable = function(tiles){
+			//filter alle tegels op niet gematched tegels en tegels die klikbaar zijn.
+			collection = factory.filterTiles(tiles);
+
 			for (i = 0; i < collection.length; i++) { 
 				for (x = 0; x < collection.length; x++) { 
 					if(collection[i]._id == collection[x]._id){
 						//zelfde tile
 					} else {
-						if(compareTiles(collection[i], collection[x])){
-							console.log('match found!');
+						if(factory.compareTiles(collection[i], collection[x])){
 							return true;
 						}
 					}
 				}
 			}
-			console.log('no match found');
 			return false;
-		}*/
+		}
 
 		return factory;
 	}]);
