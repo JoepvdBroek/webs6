@@ -48,26 +48,31 @@ module.exports = function(app){
 		scope.tile1 = null;
 		scope.tile2 = null;
 		scope.selectTile = function(tile){
-			var selectable = GameFactory.isTileSelectable(scope.tiles, tile);
-			console.log('selectable: ' + selectable);
-			if(selectable){
-				if(scope.tile1 == null){
-					scope.tile1 = tile;
-					scope.tile1.selected = true;
-				} else {
-					scope.tile2 = tile;
-					console.log(scope.tile1);
-					console.log(scope.tile2);
-					if(GameFactory.compareTiles(scope.tile1, scope.tile2)){
-						matchTiles(scope.tile1, scope.tile2);
-						scope.tile1.matched = true;
-						scope.tile2.matched = true;
+			if(GameFactory.doesGameContainUser(scope.game)){
+				var selectable = GameFactory.isTileSelectable(scope.tiles, tile);
+				console.log('selectable: ' + selectable);
+				if(selectable){
+					if(scope.tile1 == null){
+						scope.tile1 = tile;
+						scope.tile1.selected = true;
+					} else {
+						scope.tile2 = tile;
+						console.log(scope.tile1);
+						console.log(scope.tile2);
+						if(GameFactory.compareTiles(scope.tile1, scope.tile2)){
+							matchTiles(scope.tile1, scope.tile2);
+							scope.tile1.matched = true;
+							scope.tile2.matched = true;
+						}
+						scope.tile1.selected = false;
+						scope.tile1 = null;
+						scope.tile2 = null;
 					}
-					scope.tile1.selected = false;
-					scope.tile1 = null;
-					scope.tile2 = null;
 				}
+			} else {
+				alert('U zit niet in deze game');
 			}
+			
 		}
 
 		function matchTiles(tile1, tile2){
@@ -96,11 +101,16 @@ module.exports = function(app){
 		}
 
 		scope.getPlayerName = function(userId){
-			for (i = 0; i < scope.game.players.length; i++) { 
-				if(scope.game.players[i]._id === userId){
-					return scope.game.players[i].name;
-				}
-			}
+			var name = "";
+
+			angular.forEach(scope.game.players, function(player) {
+		        if( player._id === userId ) {
+		          	name =  player.name;
+		        }
+	      	});
+
+	      	return name;
+			
 		}
 
 		scope.parseTime = function(time){

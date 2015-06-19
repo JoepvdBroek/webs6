@@ -2,8 +2,13 @@ body {
 	height: 100%;
 }
 
-#leftcolumn,
-#rightcolumn {
+#loginButton,
+#logoutButton {
+	float: right;
+}
+
+#homeButton {
+
 }
 
 .gameboard {

@@ -126,19 +126,19 @@ module.exports = function(app){
 					//als 1 van de 2 tiles false is moet name ook overeenkomen
 					if(tile1.tile.matchesWholeSuit == false || tile2.tile.matchesWholeSuit == false){
 						if(tile1.tile.name == tile2.tile.name){
-							return true;
 							console.log('match!');
+							return true;
 						} else {
+							console.log('no match');							
 							return false;
-							console.log('no match');
 						}
 					} else {
-						return false;
-						console.log('match!');
+						console.log('match!');						
+						return true;
 					}	
 				} else {
-					return false;
 					console.log('no match');
+					return false;
 				}
 			}
 

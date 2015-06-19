@@ -31,7 +31,7 @@
 					<td>
 						<span ng-if="game.state == 'open' && gameCtrl.doesGameContainUser(game) == false"><a ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
 						<span ng-if="game.state == 'open' && gameCtrl.isUserOwner(game)"><a ng-click="gameCtrl.startGame(game)">Start game</a></span>
-						<span ng-if="game.state == 'playing' && gameCtrl.doesGameContainUser(game)"><a href="#/games/{{ game.id }}" >Open</a><span>
+						<span ng-if="game.state == 'playing'"><a href="#/games/{{ game.id }}" >{{gameCtrl.isUserOwner(game) ? 'Open' : 'Bekijken'}}</a><span>
 					</td>
 				</tr>
 			</tbody>
