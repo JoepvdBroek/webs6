@@ -28,6 +28,7 @@ module.exports = function(app){
 
 		function getMatches(){
 			GameFactory.getMatches(scope.gameId).success(function(data) {
+				console.log(data);
             	scope.matches = data;       
             }).error(function(status, data) {
                 console.log(status);
@@ -92,6 +93,18 @@ module.exports = function(app){
 
 		scope.isSelected = function(tab){
 			return scope.tab === tab;
+		}
+
+		scope.getPlayerName = function(userId){
+			for (i = 0; i < scope.game.players.length; i++) { 
+				if(scope.game.players[i]._id === userId){
+					return scope.game.players[i].name;
+				}
+			}
+		}
+
+		scope.parseTime = function(time){
+			return new Date(time).toLocaleString();
 		}
 	}]);
 	

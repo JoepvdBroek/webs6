@@ -24,6 +24,18 @@ module.exports = function(app){
 	    };
 	});
 
+	app.filter('matchedTo', function() {
+	    return function( matches, matchId ) {
+	      var filtered = [];
+	      angular.forEach(matches, function(match) {
+	        if( match._id === matchId ) {
+	          filtered.push(match);
+	        }
+	      });
+	      return filtered;
+	    };
+	});
+
 	/*app.filter('joinedGames', [ '$window', function($window) {
 		return function( games ) {
 	      var filtered = [];

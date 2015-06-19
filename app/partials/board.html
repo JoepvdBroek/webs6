@@ -6,6 +6,7 @@
 		<ul class="nav nav-pills">
 			<li ng-click="boardCtrl.selectTab(1)" ng-class="{ active:boardCtrl.isSelected(1) }"><a href>Bord</a></li>
 			<li ng-click="boardCtrl.selectTab(2)" ng-class="{ active:boardCtrl.isSelected(2) }"><a href>Matches</a></li>
+			<li ng-click="boardCtrl.selectTab(3)" ng-class="{ active:boardCtrl.isSelected(3) }"><a href>History</a></li>
 		</ul>
 	</div>
 
@@ -16,11 +17,22 @@
 			<tile ng-repeat="tile in boardCtrl.tiles | matched:false" ng-click="boardCtrl.selectTile(tile)"ng-class="{ selected:tile.selected }"></tile>
 		</div>
 	</div>
+
 	<div class="panel" ng-show="boardCtrl.isSelected(2)">
 		<div class="panel panel-default" ng-repeat="player in boardCtrl.game.players">
 			<div class="panel-heading">{{ player.name }}</div>
 			<div class="panel-body">
 			    <match ng-repeat="tile in boardCtrl.matches | matches:player._id"></match>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel" ng-show="boardCtrl.isSelected(3)">
+		<div class="panel panel-default" ng-repeat="tile in boardCtrl.matches" ng-if="$even">
+			<div class="panel-heading">Door {{ boardCtrl.getPlayerName(tile.match.foundBy) }} op {{ boardCtrl.parseTime(tile.match.foundOn) }}</div>
+			<div class="panel-body">
+				<match id="{{tile.tile._id}}"></match>
+			    <match ng-repeat="match in boardCtrl.matches | matchedTo:tile.match.otherTileId" id="{{match.tile._id}}"></match>
 			</div>
 		</div>
 	</div>
