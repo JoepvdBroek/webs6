@@ -4,7 +4,7 @@ module.exports = function(app){
 		var scope = this;
 
 		scope.tileTemplate = 1;
-
+		scope.socket = undefined;
 		scope.tab = 1;
 		scope.gameId = $routeParams.gameid;
 		scope.username = GameFactory.username;
@@ -14,6 +14,7 @@ module.exports = function(app){
 		getTiles();
 		getGame();
 		getMatches();
+		sockets();
  		
 		function getTiles(){
 			GameFactory.getTiles(scope.gameId).success(function(data) {
@@ -91,6 +92,31 @@ module.exports = function(app){
 			} else {
 				alert('Er zijn geen matches meer mogelijk');
 			}
+		}
+
+		function sockets(){
+			scope.socket = io("http://mahjongmayhem.herokuapp.com?gameId="+scope.gameId);
+			scope.socket.on('match', function (tiles) {
+				_.each(tiles, function(matchedTile){
+					_.each(scope.tiles, function(tile){
+						if(tile._id == matchedTile._id){
+							tile.matched = true;
+						}
+					});
+				});
+
+				getMatches();
+			});
+			scope.socket.on('start', function (response) {
+				scope.game.state = "playing";
+			});
+			scope.socket.on('end', function (response) {
+				scope.game.endedOn = new Date();
+				scope.game.state = "finished";
+			});
+			scope.socket.on('playerJoined', function (player) {
+				scope.game.players.push(player);
+			});
 		}
 
 		scope.selectTab = function(tab){
