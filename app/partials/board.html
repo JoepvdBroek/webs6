@@ -1,8 +1,9 @@
 <div class="row"  ng-controller="BoardController as boardCtrl">
+	<link rel="stylesheet" href="css/tiles{{boardCtrl.tileTemplate}}.css"/>
 
 	<button id="checkButton" ng-click="boardCtrl.isMatchAvailable()" type="button" class="btn btn-default">Is er nog een match?</button>
 
-	<div>
+	<div id="nav-view">
 		<ul class="nav nav-pills">
 			<li ng-click="boardCtrl.selectTab(1)" ng-class="{ active:boardCtrl.isSelected(1) }"><a href>Bord</a></li>
 			<li ng-click="boardCtrl.selectTab(2)" ng-class="{ active:boardCtrl.isSelected(2) }"><a href>Matches</a></li>
@@ -10,7 +11,12 @@
 		</ul>
 	</div>
 
-	
+	<div id="nav-tileTemplate">
+		<ul class="nav nav-pills">
+			<li ng-click="boardCtrl.selectTemplate(1)" ng-class="{ active:boardCtrl.templateSelected(1) }"><a href>Template 1</a></li>
+			<li ng-click="boardCtrl.selectTemplate(2)" ng-class="{ active:boardCtrl.templateSelected(2) }"><a href>Template 2</a></li>
+		</ul>
+	</div>
 
 	<div class="panel" ng-show="boardCtrl.isSelected(1)">
 		<div class="gameboard">

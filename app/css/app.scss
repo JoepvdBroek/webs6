@@ -16,13 +16,21 @@ body {
 	height: 100%;
 }
 
+#nav-view {
+	padding-top: 15px;
+}
+
+#nav-tileTemplate {
+	padding-top: 15px;
+}
+
 tile {
 	overflow: hidden;
 	position: absolute;
 	background-color: #FFF;
-	width: 72px;
-	height: 92px;
-	border-radius: 10px;
+	width: 74px;
+	height: 91px;
+	border-radius: 4px;
 }
 
 tile:hover {
@@ -37,9 +45,9 @@ tile.selected {
 match {
 	overflow: hidden;
 	background-color: #FFF;
-	width: 72px;
-	height: 92px;
-	border-radius: 10px;
+	width: 74px;
+	height: 91px;
+	border-radius: 4px;
 	display: block;
   	float: left;
 }

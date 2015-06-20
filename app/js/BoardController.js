@@ -3,6 +3,8 @@ module.exports = function(app){
 	app.controller('BoardController', ['GameFactory', '$routeParams', function(GameFactory, $routeParams){
 		var scope = this;
 
+		scope.tileTemplate = 1;
+
 		scope.tab = 1;
 		scope.gameId = $routeParams.gameid;
 		scope.username = GameFactory.username;
@@ -28,7 +30,6 @@ module.exports = function(app){
 
 		function getMatches(){
 			GameFactory.getMatches(scope.gameId).success(function(data) {
-				console.log(data);
             	scope.matches = data;       
             }).error(function(status, data) {
                 console.log(status);
@@ -101,7 +102,7 @@ module.exports = function(app){
 		}
 
 		scope.getPlayerName = function(userId){
-			var name = "";
+			var name = "-";
 
 			angular.forEach(scope.game.players, function(player) {
 		        if( player._id === userId ) {
@@ -115,6 +116,14 @@ module.exports = function(app){
 
 		scope.parseTime = function(time){
 			return new Date(time).toLocaleString();
+		}
+
+		scope.selectTemplate = function(template){
+			scope.tileTemplate = template;
+		}
+
+		scope.templateSelected = function(template){
+			return scope.tileTemplate === template;
 		}
 	}]);
 	
