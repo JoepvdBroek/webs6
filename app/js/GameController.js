@@ -1,6 +1,6 @@
 module.exports = function(app){
 
-	app.controller('GameController', ['GameFactory' , function(GameFactory){
+	app.controller('GameController', ['GameFactory', '$window' , function(GameFactory, $window){
 		var scope = this;
 
 		scope.pageIndex = 0;
@@ -89,6 +89,14 @@ module.exports = function(app){
 	    	return game.players;
 	    }
 
+	    scope.isLogged = function(){
+	    	if($window.sessionStorage.username) {
+	    		return true;
+	    	}
+
+	    	return false;
+	    }
+
 		scope.nextPage = function(){
 			scope.pageIndex = scope.pageIndex + 1;
 			getGames();
@@ -126,7 +134,7 @@ module.exports = function(app){
 		}
 
 		scope.showJoinButton = function(game){
-			return scope.isState(game, 'open') && !scope.doesGameContainUser(game) && !scope.isGameFull(game);
+			return scope.isLogged() && scope.isState(game, 'open') && !scope.doesGameContainUser(game) && !scope.isGameFull(game);
 		}
 
 		scope.showStartButton = function(game){

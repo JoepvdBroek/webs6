@@ -1,6 +1,6 @@
 <div class="row" ng-controller="GameController as gameCtrl">
-	<button id="addGamesButton" ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
-	<button id="yourGamesButton" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="float btn btn-primary">Alleen jouw games</button>
+	<button id="addGamesButton" ng-show="gameCtrl.isLogged()" ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
+	<button id="yourGamesButton" ng-show="gameCtrl.isLogged()" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="float btn btn-primary">Alleen jouw games</button>
 
 	<form  class="float form-inline" role="form">
 		<div class="form-group" >
