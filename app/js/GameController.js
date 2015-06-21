@@ -117,6 +117,22 @@ module.exports = function(app){
 			return game.state === state;
 		}
 
+		scope.isGameFull = function(game){
+			return game.players.length === game.maxPlayers;
+		}
+
+		scope.doesGameContainEnoughPlayers = function(game){
+			return game.players.length >= game.minPlayers;
+		}
+
+		scope.showJoinButton = function(game){
+			return scope.isState(game, 'open') && !scope.doesGameContainUser(game) && !scope.isGameFull(game);
+		}
+
+		scope.showStartButton = function(game){
+			return scope.isState(game, 'open') && scope.isUserOwner(game) && scope.doesGameContainEnoughPlayers(game);
+		}
+
 	}]);
 	
 }

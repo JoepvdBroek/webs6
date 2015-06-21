@@ -26,7 +26,7 @@
 
 	<div class="panel" ng-show="boardCtrl.isSelected(2)">
 		<div class="panel panel-default" ng-repeat="player in boardCtrl.game.players">
-			<div class="panel-heading">{{ player.name }} - {{ player.numberOfMatches }} matches</div>
+			<div class="panel-heading">{{ player.name }} <!-- - {{ player.numberOfMatches }} matches --></div>
 			<div class="panel-body">
 			    <match ng-repeat="tile in boardCtrl.matches | matches:player._id"></match>
 			</div>

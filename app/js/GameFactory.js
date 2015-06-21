@@ -114,11 +114,15 @@ module.exports = function(app){
 		}
 
 		function addPlayer(game){
-			/*- Je bent ingelogd
-			- De game is nog niet gestart
-			- Je zit nog niet in de game
-			- De game heeft nog niet het maximaal aantal deelnemers*/
-			return $http.post(prefix + '/games/'+game.id+'/players', {} );
+			return $http.post(prefix + '/games/'+game.id+'/players', {} ).then(function(){
+				factory.getPlayers(game._id).success(function(data){
+					game.players = data;
+				});
+			});
+		}
+
+		factory.getPlayers = function(gameId){
+			return $http.get(prefix + '/games/'+gameId+'/players');
 		}
 
 		factory.compareTiles = function(tile1, tile2){
