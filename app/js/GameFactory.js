@@ -73,7 +73,7 @@ module.exports = function(app){
 
 						if(!joined) {
 							game.players.push($window.sessionStorage.username);
-							addPlayer(game);
+							return $http.post(prefix + '/games/'+game.id+'/players', {} );
 						} else {
 							alert('U zit al in deze game');
 						}

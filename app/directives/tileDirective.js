@@ -10,17 +10,16 @@ module.exports = function(app){
 		    link: function (scope, element, attrs) {
 		    	var tile = scope.tile;
 
-		    	var x = tile.xPos * 20;
-		    	var y = tile.xPos * 30;
+		    	element.css({'left': (tile.xPos-1) * 37 + 'px', 'top': tile.yPos * 37 + 'px',  'z-index': tile.zPos });
+	    		if(tile.zPos > 0){
+	    			element.css({'left':((tile.xPos-1) * 37 + (tile.zPos * 4)) + 'px','top':(tile.yPos * 37 - (tile.zPos * 4)) + 'px'})
+		    	}
 
-		    	x = x - (tile.zPos * 1);
-		    	y = y - (tile.zPos * 1);
-
-		  		element.css({
+		  		/*element.css({
 		  			"left": tile.xPos*36 + 'px',
 		  			"top": tile.yPos*46 + 'px',
 		  			"z-index": tile.zPos
-		  		});
+		  		});*/
 
 		  		var className = tile.tile.suit+"-"+tile.tile.name;
 				element.addClass(className)

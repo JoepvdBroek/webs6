@@ -11,6 +11,7 @@ var gameController = require('./js/GameController')(app);
 var boardController = require('./js/BoardController')(app);
 
 var tileDirective = require('./directives/tileDirective')(app);
+var gameirective = require('./directives/gameDirective')(app);
 var matchedFilter = require('./directives/filters')(app);
 var modalDirective = require('./directives/modal')(app);
 

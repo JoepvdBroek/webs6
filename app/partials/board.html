@@ -1,5 +1,5 @@
 <div class="row"  ng-controller="BoardController as boardCtrl">
-	<link rel="stylesheet" href="css/tiles{{boardCtrl.tileTemplate}}.css"/>
+	<link ng-init="boardCtrl.tileTemplate = 1" rel="stylesheet" href="css/tiles{{boardCtrl.tileTemplate}}.css"/>
 
 	<button id="checkButton" ng-click="boardCtrl.isMatchAvailable()" type="button" class="btn btn-default">Is er nog een match?</button>
 
@@ -34,7 +34,7 @@
 	</div>
 
 	<div class="panel" ng-show="boardCtrl.isSelected(3)">
-		<div class="panel panel-default" ng-repeat="tile in boardCtrl.matches" ng-if="$even">
+		<div class="panel panel-default" ng-repeat="tile in boardCtrl.matches" ng-if="$even" style="float:left; width: 350px;">
 			<div class="panel-heading">Door {{ boardCtrl.getPlayerName(tile.match.foundBy) }} op {{ boardCtrl.parseTime(tile.match.foundOn) }}</div>
 			<div class="panel-body">
 				<match id="{{tile.tile._id}}"></match>

@@ -1,8 +1,8 @@
 <div class="row" ng-controller="GameController as gameCtrl">
-	<button ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
-	<button id="yourGamesButton" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="btn btn-default">Alleen jouw games</button>
+	<button id="addGamesButton" ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
+	<button id="yourGamesButton" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="float btn btn-default">Alleen jouw games</button>
 
-	<form  class="form-inline" role="form">
+	<form  class="float form-inline" role="form">
 		<div class="form-group" >
 			<label for="stateselect">State</label>
 			<select id="stateselect" class="form-control" ng-model="gameCtrl.state" ng-change="gameCtrl.refreshGames()">
@@ -11,6 +11,7 @@
 			</select>
 		</div>
 	</form>
+
  	<div class="col-md-12 well">
 		<table class="table simple">
 			<thead>
@@ -23,21 +24,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="game in gameCtrl.games" id="{{game._id}}">
-					<td>{{ game.createdBy.name }}</td>
-					<td>{{ game.players.length }}</td>
-					<td>{{ game.gameTemplate.id }}</td>
-					<td>{{ game.state }}</td>
-					<td>
-						<span ng-if="game.state == 'open' && gameCtrl.doesGameContainUser(game) == false"><a ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
-						<span ng-if="game.state == 'open' && gameCtrl.isUserOwner(game)"><a ng-click="gameCtrl.startGame(game)">Start game</a></span>
-						<span ng-if="game.state == 'playing'"><a href="#/games/{{ game.id }}" >{{gameCtrl.isUserOwner(game) ? 'Open' : 'Bekijken'}}</a><span>
-					</td>
-				</tr>
+				<tr game ng-repeat="game in gameCtrl.games"></tr>
 			</tbody>
 		</table>
-		<button ng-click="gameCtrl.prevPage()" ng-if="gameCtrl.pageIndex > 0" type="button" class="btn btn-default">Vorige pagina</button>
-		<button ng-click="gameCtrl.nextPage()" ng-if="gameCtrl.games.length == gameCtrl.pageSize"type="button" class="btn btn-default">Volgende pagina</button>
+		<button id="prevPage" ng-click="gameCtrl.prevPage()" ng-if="gameCtrl.pageIndex > 0" type="button" class="btn btn-default">Vorige pagina</button>
+		<button id="nextPage" ng-click="gameCtrl.nextPage()" ng-if="gameCtrl.games.length == gameCtrl.pageSize"type="button" class="btn btn-default">Volgende pagina</button>
 	</div>
 
 	<modal title="Game form" visible="gameCtrl.showModal">

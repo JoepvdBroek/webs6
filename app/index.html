@@ -9,14 +9,18 @@
  </head>
  <body>
  	<header ng-controller="LoginController as LCtrl">
+      
  		<nav class="navbar navbar-default">
 
-         <li id="homeButton" class="btn btn-default"><a href="#/games">Home</a></li>
-			<li id="loginButton" class="btn btn-default"><a href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/%23/login">Log in</a></li>
-			<li id="logoutButton" class="btn btn-default"><a href="#/logout">Log out</a></li>
-		 </nav>
+         <div class="container">
+            <li id="homeButton" class="btn btn-default"><a href="#/games">Home</a></li>
+   			<li id="loginButton" class="btn btn-default"><a href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/%23/login">Log in</a></li>
+   			<li id="logoutButton" class="btn btn-default"><a href="#/logout">Log out</a></li>
+		   </div>
+      </nav>
+
  	</header>
- 	<div class="container-fluid" ng-view>
+ 	<div class="container" ng-view>
  	</div>
    <script src="http://mahjongmayhem.herokuapp.com/socket.io/socket.io.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
