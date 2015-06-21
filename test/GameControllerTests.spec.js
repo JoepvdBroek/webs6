@@ -63,4 +63,56 @@ describe('GameController tests', function(){
 
         }); 
 
+        it('should return players from game', function(){
+                game = {"players": [{
+                        "_id" : "testId1"
+                },{
+                        "_id" : "testId2"
+                },{
+                        "_id" : "testId3"
+                }]}
+                output = gameController.getPlayers(game);
+                expect(output.length).to.equal(3)
+        })
+
+        it('should return if user is owner', function(){
+                game = {"createdBy": {
+                                "_id" : "TestUsername"
+                        }};
+
+                output = gameController.isUserOwner(game);
+                expect(output).to.equal(true);
+
+        })
+
+        it('should check state of game', function(){
+                game = {
+                        "state": "open"
+                };
+                output = gameController.isState(game, "open");
+                expect(output).to.equal(true);
+        })
+
+        it('should check if game contains user', function(){
+                var game = {"players":
+                                [{
+                                        "_id": "TestUsername"
+                                },{
+                                        "_id": "testingId2"
+                                }
+                                ]
+                        }
+                output = gameController.doesGameContainUser(game);
+                expect(output).to.equal(true);
+        })
+
+        it('should toggle modal', function(){
+                console.log(gameController.showModal);
+                input = gameController.showModal;
+                gameController.toggleModal();
+                output = gameController.showModal;
+                expect(output).not.to.equal(input);
+        })
+
+
 });
