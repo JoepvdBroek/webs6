@@ -15,10 +15,10 @@
 <div class="header medium">
     <h1>Code coverage report for <span class="entity">app\js\GameController.js</span></h1>
     <h2>
-        Statements: <span class="metric">61.97% <small>(44 / 71)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">50% <small>(2 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">44% <small>(11 / 25)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">61.97% <small>(44 / 71)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">59.04% <small>(49 / 83)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">15.38% <small>(2 / 13)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">36.67% <small>(11 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">59.04% <small>(49 / 83)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/js/</a> &#187; GameController.js</div>
@@ -146,7 +146,31 @@
 119
 120
 121
-122</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">9</span>
@@ -235,6 +259,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9</span>
@@ -265,11 +297,27 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">module.exports = function(app){
 &nbsp;
-	app.controller('GameController', ['GameFactory' , function(GameFactory){
+	app.controller('GameController', ['GameFactory', '$window' , function(GameFactory, $window){
 		var scope = this;
 &nbsp;
 		scope.pageIndex = 0;
@@ -358,6 +406,14 @@
 	    	return game.players;
 	    }
 &nbsp;
+	    scope.isLogged = <span class="fstat-no" title="function not covered" >function(){</span>
+<span class="cstat-no" title="statement not covered" >	    	if($window.sessionStorage.username) {</span>
+<span class="cstat-no" title="statement not covered" >	    		return true;</span>
+	    	}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >	    	return false;</span>
+	    }
+&nbsp;
 		scope.nextPage = function(){
 			scope.pageIndex = scope.pageIndex + 1;
 			getGames();
@@ -386,6 +442,22 @@
 			return game.state === state;
 		}
 &nbsp;
+		scope.isGameFull = <span class="fstat-no" title="function not covered" >function(game){</span>
+<span class="cstat-no" title="statement not covered" >			return game.players.length === game.maxPlayers;</span>
+		}
+&nbsp;
+		scope.doesGameContainEnoughPlayers = <span class="fstat-no" title="function not covered" >function(game){</span>
+<span class="cstat-no" title="statement not covered" >			return game.players.length &gt;= game.minPlayers;</span>
+		}
+&nbsp;
+		scope.showJoinButton = <span class="fstat-no" title="function not covered" >function(game){</span>
+<span class="cstat-no" title="statement not covered" >			return scope.isLogged() &amp;&amp; scope.isState(game, 'open') &amp;&amp; !scope.doesGameContainUser(game) &amp;&amp; !scope.isGameFull(game);</span>
+		}
+&nbsp;
+		scope.showStartButton = <span class="fstat-no" title="function not covered" >function(game){</span>
+<span class="cstat-no" title="statement not covered" >			return scope.isState(game, 'open') &amp;&amp; scope.isUserOwner(game) &amp;&amp; scope.doesGameContainEnoughPlayers(game);</span>
+		}
+&nbsp;
 	}]);
 	
 }</pre></td></tr>
@@ -393,7 +465,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jun 21 2015 21:37:24 GMT+0200 (W. Europe Daylight Time)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jun 21 2015 22:11:29 GMT+0200 (W. Europe Daylight Time)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
