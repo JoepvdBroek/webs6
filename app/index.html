@@ -14,8 +14,8 @@
 
          <div class="container">
             <li id="homeButton" class="btn btn-default"><a href="#/games">Home</a></li>
-   			<li id="loginButton" class="btn btn-default"><a href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/%23/login">Log in</a></li>
-   			<li id="logoutButton" class="btn btn-default"><a href="#/logout">Log out</a></li>
+   			<li id="loginButton" ng-hide="LCtrl.isLogged()" class="btn btn-default"><a href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:8080/dist/%23/login">Log in</a></li>
+   			<li id="logoutButton" ng-show="LCtrl.isLogged()" > {{ LCtrl.username() }} <a class="btn btn-default" href="#/logout">Log out</a></li>
 		   </div>
       </nav>
 
@@ -27,15 +27,6 @@
    <script src="http://underscorejs.org/underscore.js"></script>
    <script type="text/javascript" src="app.js"></script>
    <script type="text/javascript">
-   $(document).ready(function(){
-   		if(window.sessionStorage.username != null){
-   			$('#loginButton').hide();
-   			$('#logoutButton').show();
-   		} else {
-   			$('#logoutButton').hide();
-   			$('#loginButton').show();
-   		}
-	});
    </script>
  </body>
 </html>

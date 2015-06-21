@@ -1,10 +1,12 @@
 $selected: red;
+$tile_width: 74px;
+$tile_height: 91px;
 
 @mixin border-radius($radius) {
-  -webkit-border-radius: $radius;
-     -moz-border-radius: $radius;
-      -ms-border-radius: $radius;
-          border-radius: $radius;
+  	-webkit-border-radius: $radius;
+  	-moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    border-radius: $radius;
 }
 
 body {
@@ -15,18 +17,15 @@ a {
 	cursor: pointer;
 }
 
-#loginButton,
-#logoutButton {
-	float: right;
+#indexPanel {
+	width: 300px;
+	margin-top: 200px;
+	margin: auto;
 }
 
 .float {
 	float: left;
 	margin-right: 5px;
-}
-
-#addGamesButton{
-	float: right;
 }
 
 .navbar{
@@ -37,7 +36,19 @@ a {
 	}
 }
 
-#nextPage {
+select {
+	&.invalid {
+		border: 1px solid red;
+	}
+}
+
+#nextPage, 
+#checkbutton, 
+#username,
+#addGamesButton, 
+#boardMessage,
+#loginButton,
+#logoutButton {
 	float: right;
 }
 
@@ -45,12 +56,17 @@ a {
 	float: left;
 }
 
+#playerlist {
+	list-style-type: none;
+	padding: 0;
+}
+
 .gameboard {
 	position: relative;
 	height: 100%;
 }
 
-#nav-view, #nav-tileTemplate {
+#nav-tileTemplate, #boardMessage {
 	padding-top: 15px;
 }
 
@@ -58,8 +74,8 @@ tile {
 	overflow: hidden;
 	position: absolute;
 	background-color: #FFF;
-	width: 74px;
-	height: 91px;
+	width: $tile_width;
+	height: $tile_height;
 	@include border-radius(4px);
 
 	&:hover {
@@ -75,8 +91,8 @@ tile {
 match {
 	overflow: hidden;
 	background-color: #FFF;
-	width: 74px;
-	height: 91px;
+	width: $tile_width;
+	height: $tile_height;
 	@include border-radius(4px);
 	display: block;
   	float: left;

@@ -32,13 +32,13 @@ module.exports = function(app){
 			return $http.get(prefix + '/GameTemplates');
 		}
 
-		factory.addGame = function(template) {
+		factory.addGame = function(newGame) {
 			if($window.sessionStorage.username) {
 				return $http.post(prefix + '/games/', 
 				{
-					"templateName": template,
-					"minPlayers": 2,
-					"maxPlayers": 32
+					"templateName": newGame.template,
+					"minPlayers": newGame.min,
+					"maxPlayers": newGame.max
 				});
 			} else {
 				alert('U moet ingelogd zijn.');
@@ -72,8 +72,11 @@ module.exports = function(app){
 						joined = factory.doesGameContainUser(game);
 
 						if(!joined) {
-							game.players.push($window.sessionStorage.username);
-							return $http.post(prefix + '/games/'+game.id+'/players', {} );
+							var player = {};
+							player._id = $window.sessionStorage.username;
+							
+							game.players.push(player);
+							addPlayer(game);
 						} else {
 							alert('U zit al in deze game');
 						}
