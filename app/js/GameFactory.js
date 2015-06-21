@@ -72,8 +72,11 @@ module.exports = function(app){
 						joined = factory.doesGameContainUser(game);
 
 						if(!joined) {
-							game.players.push($window.sessionStorage.username);
-							return $http.post(prefix + '/games/'+game.id+'/players', {} );
+							var player = {};
+							player._id = $window.sessionStorage.username;
+							
+							game.players.push(player);
+							addPlayer(game);
 						} else {
 							alert('U zit al in deze game');
 						}

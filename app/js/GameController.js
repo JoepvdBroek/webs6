@@ -52,12 +52,7 @@ module.exports = function(app){
 
 		scope.joinGame = function(game) {
 			event.preventDefault();
-			GameFactory.joinGame(game).success(function(data){
-				game.player = data.player;
-			}).error(function(status, data) {
-				console.log(status);
-                console.log(data);
-			});;
+			GameFactory.joinGame(game);
 		}
 
 		scope.openGame = function(game){

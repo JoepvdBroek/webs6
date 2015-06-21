@@ -62,9 +62,13 @@ module.exports = function(app){
 						console.log(scope.tile1);
 						console.log(scope.tile2);
 						if(GameFactory.compareTiles(scope.tile1, scope.tile2)){
-							matchTiles(scope.tile1, scope.tile2);
-							scope.tile1.matched = true;
-							scope.tile2.matched = true;
+							matchTiles(scope.tile1, scope.tile2).success(function(data) {
+				            	scope.tile1.matched = true;
+								scope.tile2.matched = true;  
+				            }).error(function(status, data) {
+				                console.log(status);
+				                console.log(data);
+				            });
 						}
 						scope.tile1.selected = false;
 						scope.tile1 = null;
@@ -72,7 +76,7 @@ module.exports = function(app){
 					}
 				}
 			} else {
-				alert('U zit niet in deze game');
+				alertMessage('U zit niet in deze game');
 			}
 			
 		}
@@ -80,6 +84,10 @@ module.exports = function(app){
 		function matchTiles(tile1, tile2){
 			GameFactory.matchTiles(scope.gameId, tile1, tile2).success(function(data){
 				getMatches();
+				if(GameFactory.isMatchAvailable(scope.tiles) == false){
+					alertMessage('Er zijn geen matches meer mogelijk, game is nu finished');
+					scope.game.state = "finished";
+				}
 			}).error(function(status, data) {
 				console.log(status);
 				console.log(data);
@@ -88,10 +96,14 @@ module.exports = function(app){
 
 		scope.isMatchAvailable = function(){
 			if(GameFactory.isMatchAvailable(scope.tiles)){
-				alert('Er is nog een match');
+				alertMessage('Er is nog een match');
 			} else {
-				alert('Er zijn geen matches meer mogelijk');
+				alertMessage('Er zijn geen matches meer mogelijk, game is finished');
 			}
+		}
+
+		function alertMessage(message){
+			alert(message);
 		}
 
 		function sockets(){

@@ -1,13 +1,15 @@
 <div class="row" ng-controller="GameController as gameCtrl">
 	<button id="addGamesButton" ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
-	<button id="yourGamesButton" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="float btn btn-default">Alleen jouw games</button>
+	<button id="yourGamesButton" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="float btn btn-primary">Alleen jouw games</button>
 
 	<form  class="float form-inline" role="form">
 		<div class="form-group" >
 			<label for="stateselect">State</label>
 			<select id="stateselect" class="form-control" ng-model="gameCtrl.state" ng-change="gameCtrl.refreshGames()">
+			  	<option value="">alle</option>
 			  	<option value="open">open</option>
 			  	<option value="playing">playing</option>
+			  	<option value="finished">finished</option>
 			</select>
 		</div>
 	</form>

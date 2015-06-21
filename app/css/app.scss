@@ -25,7 +25,7 @@ a {
 	margin-right: 5px;
 }
 
-#addGamesButton{
+#addGamesButton, #boardMessage{
 	float: right;
 }
 
@@ -37,7 +37,9 @@ a {
 	}
 }
 
-#nextPage {
+#nextPage, 
+#checkbutton, 
+#username {
 	float: right;
 }
 
@@ -50,7 +52,7 @@ a {
 	height: 100%;
 }
 
-#nav-view, #nav-tileTemplate {
+#nav-tileTemplate, #boardMessage {
 	padding-top: 15px;
 }
 
