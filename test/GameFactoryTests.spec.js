@@ -57,7 +57,7 @@ describe('gameFactory tests', function(){
 					"_id": "testingId2"
 				}
 				]
-			}
+			};
 			it('contains user', function(){
 				win.sessionStorage.username = "testingId1";
 				output = gameFactory.doesGameContainUser(game);
@@ -445,5 +445,116 @@ describe('gameFactory tests', function(){
                         outcome = gameFactory.isTileSelectable(tiles,tile1);
                         expect(outcome).to.equal(true);
                 });
+        })
+
+	describe('filter tiles on not matched and Selectable', function(){
+                it('should filter the tiles', function () {  
+        		tiles = [
+        		{
+        		     	"xPos": 15,
+                                "yPos": 5,
+                                "zPos": 0,
+                                "matched" : true
+        		},{
+                                "xPos": 5,
+                                "yPos": 5,
+                                "zPos": 0,
+                                "matched" : false
+        		},{
+                                "xPos": 7,
+                                "yPos": 5,
+                                "zPos": 0,
+                                "matched" : true
+                        },{
+                                "xPos": 7,
+                                "yPos": 9,
+                                "zPos": 0,
+                                "matched" : false
+                        },{
+                                "xPos": 5,
+                                "yPos": 5,
+                                "zPos": 1,
+                                "matched" : false
+                        },{
+                                "xPos": 9,
+                                "yPos": 9,
+                                "zPos": 0,
+                                "matched" : false
+                        }
+        		];
+
+                        outcome = gameFactory.filterTiles(tiles);
+                        expect(outcome.length).to.equal(3);
+                });
+
+	})
+        describe('match available', function(){
+                it('no match available', function(){
+                        tiles = [{
+                                "_id": "12345",
+                                "xPos": 9,
+                                "yPos": 9,
+                                "zPos": 0,
+                                "matched" : false,
+                                "tile": {
+                                        "suit": "Character",
+                                        "name": "2",
+                                        "matchesWholeSuit": false
+                                }
+                        },{
+                                "_id": "12345",
+                                "xPos": 11,
+                                "yPos": 9,
+                                "zPos": 0,
+                                "matched" : true,
+                                "tile": {
+                                        "suit": "Character",
+                                        "name": "2",
+                                        "matchesWholeSuit": false
+                                }
+                        },{
+                                "_id": "123456",
+                                "xPos": 11,
+                                "yPos": 9,
+                                "zPos": 0,
+                                "matched" : true,
+                                "tile": {
+                                        "suit": "Character",
+                                        "name": "4",
+                                        "matchesWholeSuit": false
+                                }
+                        }
+                        ];
+                        output = gameFactory.isMatchAvailable(tiles);
+                        expect(output).to.equal(false);
+                });
+                it('match available', function(){
+                        tiles = [{
+                                "_id": "12345",
+                                "xPos": 9,
+                                "yPos": 9,
+                                "zPos": 0,
+                                "matched" : false,
+                                "tile": {
+                                        "suit": "Character",
+                                        "name": "2",
+                                        "matchesWholeSuit": false
+                                }
+                        },{
+                                "_id": "123456",
+                                "xPos": 11,
+                                "yPos": 9,
+                                "zPos": 0,
+                                "matched" : false,
+                                "tile": {
+                                        "suit": "Character",
+                                        "name": "2",
+                                        "matchesWholeSuit": false
+                                }
+                        }
+                        ];
+                        output = gameFactory.isMatchAvailable(tiles);
+                        expect(output).to.equal(true);
+                })
         })
 })

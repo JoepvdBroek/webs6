@@ -12,13 +12,13 @@
     </style>
 </head>
 <body>
-<div class="header low">
+<div class="header medium">
     <h1>Code coverage report for <span class="entity">app\js\LoginController.js</span></h1>
     <h2>
-        Statements: <span class="metric">18.18% <small>(2 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Branches: <span class="metric">0% <small>(0 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">50% <small>(1 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Lines: <span class="metric">18.18% <small>(2 / 11)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">53.33% <small>(16 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">70% <small>(7 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">53.33% <small>(16 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
     <div class="path"><a href="../../index.html">All files</a> &#187; <a href="index.html">app/js/</a> &#187; LoginController.js</div>
@@ -42,10 +42,60 @@
 15
 16
 17
-18</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -54,34 +104,80 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">module.exports = function(app){
-	app.controller('LoginController', ['$scope', '$window', '$location', <span class="fstat-no" title="function not covered" >function($scope, $window, $location){</span>
+	app.controller('LoginController', ['$window', '$location', function($window, $location){
 		
-<span class="cstat-no" title="statement not covered" >		if($location.path() == '/login'){ // login</span>
+		var scope = this;
+		scope.loggedin = false;
+		scope.user = '';
+&nbsp;
+		scope.isLogged = function(state){
+			if(state != undefined){
+				scope.loggedin = state;
+			}
+			return scope.loggedin;
+		}
+&nbsp;
+		scope.username = function(username){
+			if(username != undefined){
+				scope.user = username;
+			}
+			return scope.user;
+		}
+&nbsp;
+		<span class="missing-if-branch" title="if path not taken" >I</span>if($location.path() == '/login'){ // login
 <span class="cstat-no" title="statement not covered" >			console.log("logging");</span>
 <span class="cstat-no" title="statement not covered" >			$window.sessionStorage.username = $location.search().username;</span>
 <span class="cstat-no" title="statement not covered" >			$window.sessionStorage.token = $location.search().token;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >			console.log($window.sessionStorage.username + ':' + $window.sessionStorage.token);</span>
+<span class="cstat-no" title="statement not covered" >			scope.isLogged(true);</span>
+<span class="cstat-no" title="statement not covered" >			scope.username($location.search().username)</span>
+&nbsp;
 <span class="cstat-no" title="statement not covered" >			$location.path('/games');</span>
 			
-		} else <span class="cstat-no" title="statement not covered" >if($location.path() == '/logout'){ // logout</span>
-<span class="cstat-no" title="statement not covered" >			$window.sessionStorage.clear();</span>
+		} else <span class="missing-if-branch" title="if path not taken" >I</span>if($location.path() == '/logout'){ // logout
+<span class="cstat-no" title="statement not covered" >			delete $window.sessionStorage.username;</span>
+<span class="cstat-no" title="statement not covered" >			delete $window.sessionStorage.token;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			scope.isLogged(false);</span>
+<span class="cstat-no" title="statement not covered" >			scope.username('');</span>
+			
 <span class="cstat-no" title="statement not covered" >			$location.path('/games');</span>
+<span class="cstat-no" title="statement not covered" >			location.reload();</span>
+		} else {
+			
 		}
 &nbsp;
+		<span class="missing-if-branch" title="if path not taken" >I</span>if($window.sessionStorage.username){
+<span class="cstat-no" title="statement not covered" >			scope.isLogged(true);</span>
+<span class="cstat-no" title="statement not covered" >			scope.username($window.sessionStorage.username);</span>
+		}
 	}]);
 }</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jun 21 2015 19:23:38 GMT+0200 (W. Europe Daylight Time)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jun 21 2015 21:37:24 GMT+0200 (W. Europe Daylight Time)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>

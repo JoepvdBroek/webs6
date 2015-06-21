@@ -38,6 +38,8 @@ module.exports = function(app){
 			
 			$location.path('/games');
 			location.reload();
+		} else {
+			
 		}
 
 		if($window.sessionStorage.username){

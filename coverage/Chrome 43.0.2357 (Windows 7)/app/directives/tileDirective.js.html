@@ -17,7 +17,7 @@
     <h2>
         Statements: <span class="metric">21.43% <small>(3 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Branches: <span class="metric">0% <small>(0 / 2)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
-        Functions: <span class="metric">14.29% <small>(1 / 7)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">20% <small>(1 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Lines: <span class="metric">21.43% <small>(3 / 14)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -55,41 +55,17 @@
 28
 29
 30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+31</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -100,10 +76,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -118,23 +90,13 @@
 	app.directive('tile', <span class="fstat-no" title="function not covered" >function() {</span>
 <span class="cstat-no" title="statement not covered" >	  	return {</span>
 		    restrict: 'E',
-		    //templateUrl: 'tile.dir.html',
-		    controller: <span class="fstat-no" title="function not covered" >function ($scope){</span>
-&nbsp;
-		    },
 		    link: <span class="fstat-no" title="function not covered" >function (scope, element, attrs) {</span>
 <span class="cstat-no" title="statement not covered" >		    	var tile = scope.tile;</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >		    	element.css({'left': (tile.xPos-1) * 37 + 'px', 'top': tile.yPos * 37 + 'px',  'z-index': tile.zPos });</span>
-<span class="cstat-no" title="statement not covered" >	    		if(tile.zPos &gt; 0){</span>
-<span class="cstat-no" title="statement not covered" >	    			element.css({'left':((tile.xPos-1) * 37 + (tile.zPos * 4)) + 'px','top':(tile.yPos * 37 - (tile.zPos * 4)) + 'px'})</span>
+<span class="cstat-no" title="statement not covered" >		    	element.css({'left': (tile.xPos) * 37 + 'px', 'top': tile.yPos * 45.5 + 'px',  'z-index': tile.zPos });</span>
+<span class="cstat-no" title="statement not covered" >	    		if(scope.tile.zPos &gt; 0){</span>
+<span class="cstat-no" title="statement not covered" >	    			element.css({'left':((tile.xPos) * 37 + (tile.zPos * 3)) + 'px','top':(tile.yPos * 45.5 - (tile.zPos * 3)) + 'px'})</span>
 		    	}
-&nbsp;
-		  		/*element.css({
-		  			"left": tile.xPos*36 + 'px',
-		  			"top": tile.yPos*46 + 'px',
-		  			"z-index": tile.zPos
-		  		});*/
 &nbsp;
 <span class="cstat-no" title="statement not covered" >		  		var className = tile.tile.suit+"-"+tile.tile.name;</span>
 <span class="cstat-no" title="statement not covered" >				element.addClass(className)</span>
@@ -145,10 +107,6 @@
 	app.directive('match', <span class="fstat-no" title="function not covered" >function() {</span>
 <span class="cstat-no" title="statement not covered" >	  	return {</span>
 		    restrict: 'E',
-		    //templateUrl: 'tile.dir.html',
-		    controller: <span class="fstat-no" title="function not covered" >function ($scope){</span>
-&nbsp;
-		    },
 		    link: <span class="fstat-no" title="function not covered" >function (scope, element, attrs) {</span>
 <span class="cstat-no" title="statement not covered" >		    	var tile = scope.tile;</span>
 &nbsp;
@@ -162,7 +120,7 @@
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jun 21 2015 19:23:38 GMT+0200 (W. Europe Daylight Time)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jun 21 2015 21:37:24 GMT+0200 (W. Europe Daylight Time)</div>
 </div>
 <script src="../../prettify.js"></script>
 <script>
