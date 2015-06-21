@@ -17,6 +17,12 @@ a {
 	cursor: pointer;
 }
 
+#indexPanel {
+	width: 300px;
+	margin-top: 200px;
+	margin: auto;
+}
+
 .float {
 	float: left;
 	margin-right: 5px;
@@ -30,10 +36,16 @@ a {
 	}
 }
 
+select {
+	&.invalid {
+		border: 1px solid red;
+	}
+}
+
 #nextPage, 
 #checkbutton, 
 #username,
-addGamesButton, 
+#addGamesButton, 
 #boardMessage,
 #loginButton,
 #logoutButton {

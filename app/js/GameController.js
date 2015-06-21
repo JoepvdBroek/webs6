@@ -38,8 +38,8 @@ module.exports = function(app){
 			});
 		}
 
-		scope.addGame = function(template) {
-			GameFactory.addGame(template).success(function(data){
+		scope.addGame = function(newGame) {
+			GameFactory.addGame(newGame).success(function(data){
 				scope.games.unshift(data);
 				alert('Game is aangemaakt.');
 			}).error(function(status, data) {
@@ -83,6 +83,10 @@ module.exports = function(app){
 	        } else {
 	        	$('#yourGamesButton').html("Alleen jouw games");
 	        }
+	    }
+
+	    scope.getPlayers = function(game){
+	    	return game.players;
 	    }
 
 		scope.nextPage = function(){

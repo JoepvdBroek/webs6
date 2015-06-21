@@ -1,13 +1,13 @@
 <td>{{ game.createdBy.name }}</td>
 <td>
 	<ul id="playerlist">
-		<li ng-repeat="player in game.players">{{ player.name }}</li>
+		<li ng-repeat="player in gameCtrl.getPlayers(game)">{{ player.name }}</li>
 	</ul>
 </td>
 <td>{{ game.gameTemplate.id }}</td>
 <td>{{ game.state }}</td>
 <td>
-	<span ng-if="gameCtrl.isState(game, 'open') && gameCtrl.doesGameContainUser(game) == false"><a ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
-	<span ng-if="gameCtrl.isState(game, 'open') && gameCtrl.isUserOwner(game)"><a ng-click="gameCtrl.startGame(game)">Start game</a></span>
-	<span ng-if="gameCtrl.isState(game, 'playing')"><a href="#/games/{{ game.id }}" >{{gameCtrl.isUserOwner(game) ? 'Open' : 'Bekijken'}}</a><span>
+	<span ng-if="gameCtrl.isState(game, 'open') && gameCtrl.doesGameContainUser(game) == false"><a class="btn btn-default" ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
+	<span ng-if="gameCtrl.isState(game, 'open') && gameCtrl.isUserOwner(game)"><a class="btn btn-default" ng-click="gameCtrl.startGame(game)">Start game</a></span>
+	<span ng-if="gameCtrl.isState(game, 'playing') || gameCtrl.isState(game, 'finished')"><a class="btn btn-default" href="#/games/{{ game.id }}" >{{ gameCtrl.doesGameContainUser(game) ? 'Spelen' : 'Bekijken'}}</a><span>
 </td>

@@ -51,17 +51,19 @@ app.config([ '$routeProvider', function($routeProvider)
     })
     .when('/login',
     {
-        template: 'login',
         controller: 'LoginController',
     })
     .when('/logout',
     {
-        template: 'logout',
         controller: 'LoginController',
+    })
+    .when('/',
+    {
+        templateUrl: 'partials/index.html',
     })
     .otherwise
     ({
-        redirectTo: '/'
+        redirectTo: '/games'
     });
 
 }]);
