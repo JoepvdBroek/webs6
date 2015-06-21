@@ -1,0 +1,81 @@
+$file_path: "../assets/Mahjong_sprite_sheet_1.png";
+$toRight: 0;
+$circles: 9;
+$bamboos: 9;
+$characters: 9;
+$winds: North East South West;
+$dragons: Green Red White;
+$flowers: Plum Chrysantememum Orchid Bamboo;
+$seasons: Spring Summer Autumn Winter;
+$tilesuits: Bamboo Circle Character Dragon Wind Season Flower;
+
+
+@each $suit in $tilesuits{
+	@if $suit == Bamboo{
+		@for $i from 1 through $bamboos{
+			.#{$suit+"-"+$i}{
+				$toRight: ($i - 1)*74;
+				background: #{'url('+$file_path+') -'+$toRight+'px -91px'};
+			}
+		}
+	}
+	@if $suit == Circle{
+		@for $i from 1 through $circles{
+			.#{$suit+"-"+$i}{
+				$toRight: ($i - 1)*74;
+				background: #{'url('+$file_path+') -'+$toRight+'px -182px'};
+			}
+		}
+	}
+	@if $suit == Character{
+		@for $i from 1 through $characters{
+			.#{$suit+"-"+$i}{
+				$toRight: ($i - 1)*74;
+				background: #{'url('+$file_path+') -'+$toRight+'px 0px'};
+			}
+		}
+	}
+	@if $suit == Dragon{
+		$count: 0;
+		@each $dragon in $dragons{
+			.#{$suit+"-"+$dragon}{
+				$toRight: 962;
+				$toDown:$count;
+				background: #{'url('+$file_path+') -'+$toRight+'px -'+$toDown+'px'};
+				
+			}
+			$count: $count+91;
+		}
+	}
+	@if $suit == Wind{
+		$toDown: 0;
+		@each $wind in $winds{
+			.#{$suit+"-"+$wind}{
+				$toRight: 666+$toDown;
+				background: #{'url('+$file_path+') -'+$toRight+'px 0px'};
+			}
+			$toDown: $toDown+74;
+		}
+	}
+	@if $suit == Season{
+		$toDown: 0;
+		@each $season in $seasons{
+			.#{$suit+"-"+$season}{
+				$toRight: 666;
+				background: #{'url('+$file_path+') -'+$toRight+'px -91px'};
+			}
+			$toDown: $toDown+74;
+		}
+	}
+	@if $suit == Flower{
+		$toDown: 74*3;
+		@each $flower in $flowers{
+			.#{$suit+"-"+$flower}{
+				$toRight: 666+$toDown;
+				background: #{'url('+$file_path+') -'+$toRight+'px -182px'};
+			}
+			$toDown: $toDown - 74;
+		}
+	}
+	
+}

@@ -1,0 +1,9 @@
+<td>{{ game.createdBy.name }}</td>
+<td>{{ game.players.length }}</td>
+<td>{{ game.gameTemplate.id }}</td>
+<td>{{ game.state }}</td>
+<td>
+	<span ng-if="gameCtrl.isState(game, 'open') && gameCtrl.doesGameContainUser(game) == false"><a ng-click="gameCtrl.joinGame(game)">Deelnemen</a></span>
+	<span ng-if="gameCtrl.isState(game, 'open') && gameCtrl.isUserOwner(game)"><a ng-click="gameCtrl.startGame(game)">Start game</a></span>
+	<span ng-if="gameCtrl.isState(game, 'playing')"><a href="#/games/{{ game.id }}" >{{gameCtrl.isUserOwner(game) ? 'Open' : 'Bekijken'}}</a><span>
+</td>

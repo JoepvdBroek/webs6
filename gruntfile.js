@@ -20,6 +20,18 @@ module.exports = function(grunt) {
 				dest: 'dist/',
 			}
 		},
+		sass: {
+			dist: {
+				options: {
+					style: 'expanded'
+				},
+				files: {
+					'dist/css/app.css': 'app/css/app.scss',
+					'dist/css/tiles1.css':'app/css/tiles1.scss',
+					'dist/css/tiles2.css':'app/css/tiles2.scss'
+				}
+			}
+		},
 		watch: {
 			js: {
 				files: "app/**/*.js",
@@ -30,8 +42,8 @@ module.exports = function(grunt) {
 				tasks: 'copy'
 			},
 			css: {
-				files: 'app/**/*.css',
-				tasks: 'copy'
+				files: 'app/**/*.scss',
+				tasks: 'sass'
 			}
 		}
 	});
@@ -40,8 +52,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	//grunt.loadNpmTasks('grunt-contrib-sass');
+	grunt.loadNpmTasks('grunt-contrib-sass');
 
 	// The default tasks to run when you type: grunt
-	grunt.registerTask('default', ['browserify', 'copy', 'watch']);
+	grunt.registerTask('default', ['browserify', 'copy', 'sass', 'watch']);
 };

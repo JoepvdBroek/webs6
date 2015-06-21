@@ -12,7 +12,31 @@ module.exports = function(app){
 	    };
 	});
 
-	app.filter('joinedGames', [ '$window', function($window) {
+	app.filter('matches', function() {
+	    return function( tiles, username ) {
+	      var filtered = [];
+	      angular.forEach(tiles, function(tile) {
+	        if( tile.match.foundBy === username ) {
+	          filtered.push(tile);
+	        }
+	      });
+	      return filtered;
+	    };
+	});
+
+	app.filter('matchedTo', function() {
+	    return function( matches, matchId ) {
+	      var filtered = [];
+	      angular.forEach(matches, function(match) {
+	        if( match._id === matchId ) {
+	          filtered.push(match);
+	        }
+	      });
+	      return filtered;
+	    };
+	});
+
+	/*app.filter('joinedGames', [ '$window', function($window) {
 		return function( games ) {
 	      var filtered = [];
 	      angular.forEach(games, function(game) {
@@ -24,5 +48,5 @@ module.exports = function(app){
 	      });
 	      return filtered;
 	    };
-	}]);
+	}]);*/
 };
