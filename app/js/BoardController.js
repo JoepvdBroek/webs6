@@ -65,20 +65,21 @@ module.exports = function(app){
 							matchTiles(scope.tile1, scope.tile2);
 						}
 						scope.tile1.selected = false;
+						scope.tile1 = null;
+						scope.tile2 = null;  
+
 					}
 				}
 			} else {
-				alertMessage('U zit niet in deze game');
+				alertMessage('U zit niet in deze game');	
 			}
 			
 		}
 
 		function matchTiles(tile1, tile2){
 			GameFactory.matchTiles(scope.gameId, tile1, tile2).success(function(data){
-				scope.tile1.matched = true;
-				scope.tile2.matched = true;
-				scope.tile1 = null;
-				scope.tile2 = null;  
+				tile1.matched = true;
+				tile2.matched = true;
 				getMatches();
 				if(GameFactory.isMatchAvailable(scope.tiles) == false){
 					alertMessage('Er zijn geen matches meer mogelijk, game is nu finished');
