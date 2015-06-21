@@ -145,7 +145,6 @@ module.exports = function(app){
 	      	});
 
 	      	return name;
-			
 		}
 
 		scope.parseTime = function(time){

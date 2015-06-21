@@ -6,4 +6,11 @@ module.exports = function(app){
 		    templateUrl: 'game.dir.html',
 		};
 	});
+
+	app.directive('gameform', function() {
+	  	return {
+		    restrict: 'E',
+		    templateUrl: 'form.dir.html',
+		};
+	});
 };

@@ -21,7 +21,6 @@ app.factory('httpRequestInterceptor', [ '$window' , function ($window) {
         request: function (config) { 
 
           if($window.sessionStorage.token) {
-              console.log('setting header');
               config.headers['x-username'] = $window.sessionStorage.username;
               config.headers['x-token'] = $window.sessionStorage.token;
           }

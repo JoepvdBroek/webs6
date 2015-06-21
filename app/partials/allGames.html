@@ -1,6 +1,6 @@
 <div class="row" ng-controller="GameController as gameCtrl">
-	<button id="addGamesButton" ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
-	<button id="yourGamesButton" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="float btn btn-primary">Alleen jouw games</button>
+	<button id="addGamesButton" ng-show="gameCtrl.isLogged()" ng-click="gameCtrl.toggleModal()" type="button" class="btn btn-success">Game aanmaken</button>
+	<button id="yourGamesButton" ng-show="gameCtrl.isLogged()" ng-click="gameCtrl.toggleOnlyJoinedGames()" type="button" class="float btn btn-primary">Alleen jouw games</button>
 
 	<form  class="float form-inline" role="form">
 		<div class="form-group" >
@@ -34,42 +34,7 @@
 	</div>
 
 	<modal title="Game form" visible="gameCtrl.showModal">
-	    <form name="addGame" role="form">
-	      <div class="form-group">
-	        <label>Game template</label>
-	        <select name="template" class="form-control" ng-model="newGame.template" required>
-			  <option ng-repeat="template in gameCtrl.templates" value="{{template._id}}">{{template._id}}</option>
-			</select>
-	      </div>
-	      <div class="form-group">
-	        <label>Minimaal aantal spelers</label>
-	        <select name="min" class="form-control" ng-model="newGame.min" required>
-			  <option value="1">1</option>
-			  <option value="2">2</option>
-			  <option value="3">3</option>
-			  <option value="4">4</option>
-			  <option value="5">5</option>
-			  <option value="6">6</option>
-			</select>
-	      </div>
-	      <div class="form-group">
-	        <label>Maximaal aantal spelers</label>
-	        <select name="max" class="form-control" ng-model="newGame.max" required>
-			  <option value="1">1</option>
-			  <option value="2">2</option>
-			  <option value="3">3</option>
-			  <option value="4">4</option>
-			  <option value="5">5</option>
-			  <option value="6">6</option>
-			  <option value="7">7</option>
-			  <option value="8">8</option>
-			  <option value="9">9</option>
-			  <option value="10">10</option>
-			</select>
-	      </div>
-
-	      <button ng-disabled="addGame.max.$invalid || addGame.min.$invalid || addGame.template.$invalid " type="submit" class="btn btn-default" ng-click="gameCtrl.addGame(newGame)">Maak aan</button>
-	    </form>
+	    <gameform></gameform>
     </modal>
 </div>
 
