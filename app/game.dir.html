@@ -1,6 +1,8 @@
 <td>{{ game.createdBy.name }}</td>
 <td>
-	<li ng-repeat="player in game.players">{{ player.name }}</li>
+	<ul id="playerlist">
+		<li ng-repeat="player in game.players">{{ player.name }}</li>
+	</ul>
 </td>
 <td>{{ game.gameTemplate.id }}</td>
 <td>{{ game.state }}</td>

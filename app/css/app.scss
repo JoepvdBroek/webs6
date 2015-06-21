@@ -47,6 +47,11 @@ a {
 	float: left;
 }
 
+#playerlist {
+	list-style-type: none;
+	padding: 0;
+}
+
 .gameboard {
 	position: relative;
 	height: 100%;
