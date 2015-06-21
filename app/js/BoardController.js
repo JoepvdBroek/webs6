@@ -62,17 +62,9 @@ module.exports = function(app){
 						console.log(scope.tile1);
 						console.log(scope.tile2);
 						if(GameFactory.compareTiles(scope.tile1, scope.tile2)){
-							matchTiles(scope.tile1, scope.tile2).success(function(data) {
-				            	scope.tile1.matched = true;
-								scope.tile2.matched = true;  
-				            }).error(function(status, data) {
-				                console.log(status);
-				                console.log(data);
-				            });
+							matchTiles(scope.tile1, scope.tile2);
 						}
 						scope.tile1.selected = false;
-						scope.tile1 = null;
-						scope.tile2 = null;
 					}
 				}
 			} else {
@@ -83,6 +75,10 @@ module.exports = function(app){
 
 		function matchTiles(tile1, tile2){
 			GameFactory.matchTiles(scope.gameId, tile1, tile2).success(function(data){
+				scope.tile1.matched = true;
+				scope.tile2.matched = true;
+				scope.tile1 = null;
+				scope.tile2 = null;  
 				getMatches();
 				if(GameFactory.isMatchAvailable(scope.tiles) == false){
 					alertMessage('Er zijn geen matches meer mogelijk, game is nu finished');
